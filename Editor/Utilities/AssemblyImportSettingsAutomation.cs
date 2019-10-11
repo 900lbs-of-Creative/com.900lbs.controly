@@ -13,11 +13,6 @@ public static class AssemblyImportSettingsAutomation
 
     static AssemblyImportSettingsAutomation()
     {
-        CompilationPipeline.compilationFinished += CompilationPipeline_compilationFinished;
-    }
-
-    private static void CompilationPipeline_compilationFinished(object obj)
-    {
         string runtimeAssemblyFilePath = CompilationPipeline.GetAssemblyDefinitionFilePathFromAssemblyName(RuntimeAssemblyDefinitionName);
         try
         {
