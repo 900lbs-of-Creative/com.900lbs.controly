@@ -1,18 +1,17 @@
 {
-    "name": "900lbs.UIFramework",
-    "references": [
-        "GUID:4fe06e08782480a40af9f0ec48dd68a1",
-        "GUID:0682e9356e4fdf942a8f741e3e3dcfa9"
-    ],
-    "includePlatforms": [],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [
-        "dUI_MANAGER",
-        "ODIN_INSPECTOR"
-    ],
-    "versionDefines": []
+"name": "900lbs.UIFramework",
+"references": [
+"GUID:4fe06e08782480a40af9f0ec48dd68a1",
+"GUID:0682e9356e4fdf942a8f741e3e3dcfa9"
+],
+"includePlatforms": [],
+"excludePlatforms": [],
+"allowUnsafeCode": false,
+"overrideReferences": false,
+"precompiledReferences": [],
+"autoReferenced": true,
+"defineConstraints": [
+"NINEHUNDREDLBS_UIFRAMEWORK"
+],
+"versionDefines": []
 }
