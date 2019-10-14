@@ -16,8 +16,8 @@ namespace NineHundredLbs.UIFramework.Editor
         public const string DEFINE_900LBSUIFRAMEWORK = "NINEHUNDREDLBS_UIFRAMEWORK";
 
         public const string RuntimeAssemblyDefinitionName = "900lbs.UIFramework";
-        public const string DoozyRuntimeAssemblyDefinitionName = "Doozy.Engine";
-        public const string EnhancedScrollerAssemblyDefinitionName = "EnhancedScroller";
+        public const string DoozyRuntimeAssemblyDefinitionName = "DoozyEngineAssembly";
+        public const string EnhancedScrollerAssemblyDefinitionName = "EnhancedScrollerAssembly";
 
         private static readonly StringBuilder StringBuilder = new StringBuilder();
 

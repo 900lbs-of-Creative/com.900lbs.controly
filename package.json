@@ -2,7 +2,7 @@
   "name": "com.900lbs.uiframework",
   "version": "1.0.0",
   "displayName": "UI Framework",
-  "description": "A collection of abstract classes to handle UI management on data-driven systems. Requires DoozyUI and OdinInspector to function at full potential.",
+  "description": "A collection of abstract classes to handle UI management on data-driven systems. Requires DoozyUI and OdinInspector to function.",
   "unity": "2018.3",
   "author": {
     "name": "Daniel Colina",
