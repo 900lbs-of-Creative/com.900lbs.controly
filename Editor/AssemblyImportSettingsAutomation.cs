@@ -35,23 +35,16 @@ namespace NineHundredLbs.UIFramework.Editor
             try
             {
                 UnityEditor.Compilation.Assembly doozyAssembly = null;
-                string doozyAssemblyGUID = string.Empty;
-
                 // Attempt to get the Doozy assembly.
-                if (TryGetAssembly(DoozyRuntimeAssemblyDefinitionName, out doozyAssembly))
-                    doozyAssemblyGUID = AssetDatabase.AssetPathToGUID(CompilationPipeline.GetAssemblyDefinitionFilePathFromAssemblyName(doozyAssembly.name));
-                else
+                if (!TryGetAssembly(DoozyRuntimeAssemblyDefinitionName, out doozyAssembly))
                     throw new Exception("Unable to find a Doozy runtime assembly! Refer to the documentation in Packages/UI Framework/DOCUMENTATION to fix this issue.");
 
                 // Attempt to get the EnhancedScroller assembly
                 UnityEditor.Compilation.Assembly enhancedScrollerAssembly = null;
-                string enhancedScrollerAssemblyGUID = string.Empty;
-                if (TryGetAssembly(EnhancedScrollerAssemblyDefinitionName, out enhancedScrollerAssembly))
-                    enhancedScrollerAssemblyGUID = AssetDatabase.AssetPathToGUID(CompilationPipeline.GetAssemblyDefinitionFilePathFromAssemblyName(enhancedScrollerAssembly.name));
-                else
-                    throw new Exception("Unable to find an EnhancedScroller runtime assembly! Refer to the documentation in Packages/UI Framework/DOCUMENTATION to fix this issue.");
+                if (!TryGetAssembly(EnhancedScrollerAssemblyDefinitionName, out enhancedScrollerAssembly))
+                    throw new Exception("Unable to find an EnhancedScroller runtime assembly! Refer to the documentation in Packages/UI Framework/DOCUMENTATION to fix this issue.");                    
 
-                File.WriteAllText(runtimeAssemblyFilePath, GetAssemblyDefinitionString(doozyAssemblyGUID, enhancedScrollerAssemblyGUID));
+                File.WriteAllText(runtimeAssemblyFilePath, GetAssemblyDefinitionString(doozyAssembly.name, enhancedScrollerAssembly.name));
                 AddGlobalDefine(DEFINE_900LBSUIFRAMEWORK);
             }
             catch (Exception e)
@@ -61,16 +54,16 @@ namespace NineHundredLbs.UIFramework.Editor
             }
         }
 
-        private static string GetAssemblyDefinitionString(params string[] referencedAssemblyGUIDs)
+        private static string GetAssemblyDefinitionString(params string[] referencedAssemblies)
         {
             StringBuilder.Length = 0;
             StringBuilder.Append("{\n");
             StringBuilder.Append("\"name\": " + "\"" + RuntimeAssemblyDefinitionName + "\",\n");
             StringBuilder.Append("\"references\": [\n");
-            for (int i = 0; i < referencedAssemblyGUIDs.Length; i++)
+            for (int i = 0; i < referencedAssemblies.Length; i++)
             {
-                StringBuilder.Append("\"GUID:" + referencedAssemblyGUIDs[i] + "\"");
-                if (i != referencedAssemblyGUIDs.Length - 1)
+                StringBuilder.Append("\"" + referencedAssemblies[i] + "\"");
+                if (i != referencedAssemblies.Length - 1)
                     StringBuilder.Append(",");
                 StringBuilder.Append("\n");
             }
