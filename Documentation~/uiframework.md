@@ -50,7 +50,7 @@ For an example, see the ExampleEntityController below:
 ~~~C#
 {
   // Make sure your custom properties class inherits from AEntityProperties.
-  // If you want your properties to be serialized and editable, make sure 
+  // If you want your properties to be serialized and editable, make sure
   // to mark it with the [System.Serializable] attribute.
   [System.Serializable]
   public class ExampleEntityProperties : AEntityProperties
@@ -58,8 +58,6 @@ For an example, see the ExampleEntityController below:
     public int value;
   }
 
-  // Make sure your custom controller class gives its properties as the generic parameter T
-  // when inheriting from AEntityController<T>.
   public class ExampleEntityController : AEntityController<ExampleEntityProperties>
   {
     protected override void AddListeners()
@@ -202,7 +200,7 @@ For an example, see the ExampleToggleController below:
     protected override void AnimateValueChanged(bool value)
     {
       // In most cases, Doozy can manage frontend behaviour, but in the case that a toggle controller
-      // needs to change visually when value is changed in a format that is not supported by 
+      // needs to change visually when value is changed in a format that is not supported by
       // Doozy, do it here.
       base.AnimateOnClick();
       anim.SetBool("Toggled", value);
@@ -288,75 +286,234 @@ Because UIViews encapsulate all UI that are not specifically a toggle, button, o
 
 ### Toggle Group Controllers
 
-View controllers are specialized entity controllers that control a UIView component. Because they inherit from ***AEntityController\<T>,*** they retain all the property behaviours detailed [above](#entity-controllers).
+Toggle group controllers are specialized view controllers that control a ToggleGroup component and a group of [toggle controllers](#toggle-controllers).
 
-The default implementation of a view controller is the ***AViewController\<T>*** class. The controller auto-registers callbacks to its controlled UIVIew component and exposes a few methods that subclasses can easily override, listed below:
+The default implementation of a toggle group controller is the ***AToggleGroupController\<T, U, V>*** class. The controller auto-registers callbacks of the toggle controllers it controls and exposes a few methods that subclasses can easily override, listed below:
 
-- ***OnShowStarted():*** Handler for behaviour when controlled UIView has started its show animation.
-- ***OnShowFinished():*** Handler for behaviour when controlled UIView has finished its show animation.
-- ***OnHideStarted():*** Handler for behaviour when controlled UIView has started its hide animation.
-- ***OnHideFinished():*** Handler for behaviour when controlled UIView has finished its hide animation.
+- ***PopulateToggles():*** Handler to populate toggles. By default called when properties have been set. Delegates to contained properties to generate properties for controlled toggles.
+- ***ClearToggles():*** Handler to clear toggles. By default called when properties have been set before ***PopulateToggles()*** is called.
+- ***Toggle_Toggled():*** Handler for behaviour when a controlled toggle controller is toggled on or off.
 
-In the case of a view controller that does not need any specialized properties, simply inherit from the ***AViewController*** class.
+Toggle group controllers are only able to control a group of toggle controllers of a specific type. This is by design. In essence, they serve as a proxy for callbacks from a group of toggle controllers in addition to providing more control over a group.
 
-For an example, see the ExampleViewController below:
+For an example, see the ExampleToggleGroupController that controls a group of ExampleToggleController below:
 
 ~~~C#
 {
-  // Make sure your custom properties class inherits from AViewProperties.
+  #region ExampleToggleController
+  // This is an empty toggle controller that stores an integer in its properties.
   [System.Serializable]
-  public class ExampleViewProperties : AViewProperties
+  public class ExampleToggleProperties
   {
-    public string title;
-    public string description;
-  }
-
-  public class ExampleViewController : AViewController<ExampleViewProperties>
-  {
-    [SerializeField] private Text titleText;
-    [SerializeField] private Text descriptionText;
-
-    protected override void OnPropertiesSet()
+    public int data;
+    public ExampleToggleProperties(int data)
     {
-      // Generally, initialize components based on properties here.
-      base.OnPropertiesSet();
-      titleText.text = Properties.title;
-      descriptionText.text = Properties.description;
-    }
-
-    protected override void OnShowStarted()
-    {
-      base.OnShowStarted();
-      Debug.LogFormat("My name is {0} and I started showing!", gameObject.name);
-    }
-
-    protected override void OnShowFinished()
-    {
-      base.OnShowFinished();
-      Debug.LogFormat("My name is {0} and I finished showing!", gameObject.name);
-    }
-
-    protected override void OnHideStarted()
-    {
-      base.OnHideStarted();
-      Debug.LogFormat("My name is {0} and I started hiding!", gameObject.name);
-    }
-
-    protected override void OnHideFinished()
-    {
-      base.OnHideFinished();
-      Debug.LogFormat("My name is {0} and I finished hiding!", gameObject.name);
+      this.data = data;
     }
   }
+  public class ExampleToggleController : AToggleController<ExampleToggleProperties> {}
+  #endregion
+
+  #region ExampleToggleGroupController
+  // Make sure your custom properties inherits from AToggleGroupProperties, passing
+  // the type of properties of the toggle controller this group will control to it.
+  [System.Serializable]
+  public class ExampleToggleGroupProperties : AToggleGroupProperties<ExampleToggleProperties>
+  {
+    public List<int> dataSet;
+
+    public override List<ExampleToggleProperties> GetToggleProperties()
+    {
+      // Because this method is abstract in AToggleGroupProperties<T>, each custom toggle group properties
+      // class must implement. Essentially, this method creates and returns the properties of the toggles
+      // this group will control.
+      List<ExampleToggleProperties> propertiesList = new List<ExampleToggleProperties>();
+      foreach (int data in dataSet)
+        propertiesList.Add(new ExampleToggleProperties(data));
+      return propertiesList;
+    }
+  }
+
+  public class ExampleToggleGroupController : AToggleGroupController<ExampleToggleGroupProperties, ExampleToggleController, ExampleToggleProperties>
+  {
+    protected override void PopulateToggles()
+    {
+      // By default, the base AToggleGroupController<T, U, V> will populate controlled
+      // toggles by delegating to the properties on this object, so manage any behaviour
+      // that needs to happen after toggles have spawned here.
+      base.PopulateToggles();
+      foreach (ExampleToggleController toggle in Toggles)
+        Debug.LogFormat("Populated {0}!", toggle.name);
+    }
+
+    protected override void ClearToggles()
+    {
+      // By default, the base AToggleGroupController<T, U, V> will destroy the controlled
+      // toggles in the base method, so manage any other behaviour that needs to happen here
+      // BEFORE calling base.ClearToggles();
+      foreach (ExampleToggleController toggle in Toggles)
+        Debug.LogFormat("Destroying {0}!", toggle.name);
+      base.ClearToggles();
+    }
+
+    protected override void Toggle_Toggled(ExampleToggleController toggle, bool value)
+    {
+      // This method is intended to manage behaviour when a controlled toggle has changed value.
+      // From here, you can send out global messages, synchronize other toggle groups, etc.
+      Debug.LogFormat("My controlled toggle {0} was toggled to {1} and his property's value is {2}!", toggle.name, value, toggle.Properties.data);
+    }
+  }
+  #endregion
 }
-~~~ 
+~~~
 
 ### Button Group Controllers
 
-ButtonGroup controllers manage a group of
+Button group controllers are specialized view controllers that control a group of [button controllers](#button-controllers).
+
+The default implementation of a button group controller is the ***AButtonGroupController\<T, U, V>*** class. The controller auto-registers callbacks of the button controllers it controls and exposes a few methods that subclasses can easily override, listed below:
+
+- ***PopulateButtons():*** Handler to populate buttons. By default called when properties have been set. Delegates to contained properties to generate properties for controlled buttons.
+- ***ClearButtons():*** Handler to clear buttons. By default called when properties have been set before ***PopulateToggles()*** is called.
+- ***Button_Clicked():*** Handler for behaviour when a controlled button controller clicked.
+
+Button group controllers are only able to control a group of button controllers of a specific type. This is by design. In essence, they serve as a proxy for callbacks from a group of button controllers in addition to providing more control over a group.
+
+For an example, see the ExampleButtonGroupController that controls a group of ExampleButtonController below:
+
+~~~C#
+{
+  #region ExampleButtonController
+  // This is just an empty button controller that stores an integer in its properties.
+  [System.Serializable]
+  public class ExampleButtonProperties
+  {
+    public int data;
+    public ExampleButtonProperties(int data)
+    {
+      this.data = data;
+    }
+  }
+  public class ExampleButtonController : AButtonController<ExampleButtonProperties> {}
+  #endregion
+
+  #region ExampleButtonGroupController
+  // Make sure your custom properties inherits from AButtonGroupProperties, passing
+  // the type of properties of the button controller this group will control to it.
+  [System.Serializable]
+  public class ExampleButtonGroupProperties : AButtonGroupProperties<ExampleButtonProperties>
+  {
+    public List<int> dataSet;
+
+    public override List<ExampleButtonProperties> GetButtonProperties()
+    {
+      // Because this method is abstract in AButtonGroupProperties<T>, each custom button group properties
+      // class must implement. Essentially, this method creates and returns the properties of the buttons
+      // this group will control.
+      List<ExampleButtonProperties> propertiesList = new List<ExampleButtonProperties>();
+      foreach (int data in dataSet)
+        propertiesList.Add(new ExampleButtonProperties(data));
+      return propertiesList;
+    }
+  }
+
+  public class ExampleButtonGroupController : AButtonGroupController<ExampleButtonGroupProperties, ExampleButtonController, ExampleButtonProperties>
+  {
+    protected override void PopulateButtons()
+    {
+      base.PopulateButtons();
+      // By default, the base AButtonGroupController<T, U, V> will populate controlled
+      // buttons by delegating to the properties on this object, so manage any behaviour
+      // that needs to happen after buttons have spawned here.
+      foreach (ExampleButtonController button in Buttons)
+        Debug.LogFormat("Populated {0}!", button.name);
+    }
+
+    protected override void ClearButtons()
+    {
+      // By default, the base AButtonGroupController<T, U, V> will destroy the controlled
+      // buttons in the base method, so manage any other behaviour that needs to happen here
+      // BEFORE calling base.ClearButtons();
+      foreach (ExampleButtonController button in Buttons)
+        Debug.LogFormat("Destroying {0}!", button.name);
+      base.ClearButtons();
+    }
+
+    protected override void Button_Clicked(ExampleButtonController button, bool value)
+    {
+      // This method is intended to manage behaviour when a controlled button has changed value.
+      // From here, you can send out global messages, synchronize other button groups, etc.
+      Debug.LogFormat("My controlled button {0} was clicked and his property's value is {1}!", button.name, button.Properties.data);
+    }
+  }
+  #endregion
+}
+~~~
 
 ### Scroller Controllers
 
-### Tab Menu Controllers
+Scroller controllers are specialized view controllers that control an EnhancedScroller component and by proxy, a group of cell view controllers.
 
-Tab page controllers control a UIView component
+**IMPORTANT:** the majority of the implementation of scroller controllers is built on the EnhancedScroller plugin. If parts of the implementation don't make sense, reference the EnhancedScroller documentation and examples.
+
+> **Cell View Controllers**
+>
+> Cell view controllers are specialized objects used and controlled by scroller controllers that control individual cell views in a scroller.
+>
+> The default implementation of cell view controllers ***ACellViewController\<T>*** extends the EnhancedScroller plugin's class **EnhancedScrollerCellView** because the EnhancedScroller plugin requires it. In addition, it also implements the interface that drive entity controllers, allowing for the property behaviour detailed [above](#entity-controllers).
+
+The default implementation of a scroller controller is the ***AScrollerController\<T>*** class. The controller serves as IEnhancedScrollerDelegate for the EnhancedScroller plugin, and as such handles the majority of behaviour internally, but exposes one abstract method that must be implemented, listed below:
+
+- ***GetCellView(EnhancedScroller scroller, int dataIndex, int cellIndex):*** gets and returns the prefab for the cell view to be spawned based on the given data/cell index. Called by the controlled EnhancedScroller through its IEnhancedScrollerDelegate interface.
+
+The key to what makes scroller controllers work is in their properties. By default, their properties store a SmallList\<ACellViewProperties>, which the controlled EnhancedScroller uses to drive population of cell views.
+
+For an example, see the ExampleScrollerController that controls a group of ExampleCellViewController below:
+
+~~~C#
+{
+  #region ExampleCellViewController
+  // This is just an empty cell view controller that stores an integer in its properties.
+  [System.Serializable]
+  public class ExampleCellViewProperties
+  {
+    public int data;
+    public ExampleCellViewProperties(int data)
+    {
+      this.data = data;
+    }
+  }
+  public class ExampleCellViewController : ACellViewController<ExampleCellViewProperties> {}
+  #endregion
+
+  #region ExampleScrollerController
+  // Make sure your custom properties inherits from AScrollerProperties.
+  [System.Serializable]
+  public class ExampleScrollerProperties : AScrollerProperties
+  {
+    public List<int> dataSet;
+  }
+
+  public class ExampleScrollerController : AScrollerController<ExampleScrollerProperties>
+  {
+    // Make sure you store the prefabs for the cell view types 
+    [SerializeField] private ExampleCellViewController exampleCellViewPrefab;
+
+    public override EnhancedScrollerCellView GetCellView(EnhancedScroller scroller, int dataIndex, int cellIndex)
+    {
+      // This syntax is pulled straight from the EnhancedScroller examples.
+      if (Properties.ScrollerData[dataIndex] is ExampleCellViewProperties)
+      {
+        ExampleCellViewController exampleCellView = scroller.GetCellView(exampleCellViewPrefab) as ExampleCellViewPrefab;
+        exampleCellView.SetPropertes(Properties.ScrollerData[dataIndex]);
+        return cellView
+      }
+      else
+      {
+        return null;
+      }
+    }
+  }
+  #endregion
+}
+~~~
