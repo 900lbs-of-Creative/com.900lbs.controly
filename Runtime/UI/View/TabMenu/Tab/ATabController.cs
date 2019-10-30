@@ -1,4 +1,4 @@
-﻿namespace NineHundredLbs.UIFramework
+﻿namespace NineHundredLbs.Controly.UI
 {
     /// <summary>
     /// Base implementation for properties of <see cref="ATabController{TTabProperties}"/> objects.

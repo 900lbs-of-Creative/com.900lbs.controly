@@ -1,0 +1,18 @@
+{
+"name": "900lbs.Controly.UI.View.Scroller",
+"references": [
+"900lbs.Controly",
+"900lbs.Controly.UI",
+"EnhancedScrollerAssembly"
+],
+"includePlatforms": [],
+"excludePlatforms": [],
+"allowUnsafeCode": false,
+"overrideReferences": false,
+"precompiledReferences": [],
+"autoReferenced": true,
+"defineConstraints": [
+"CONTROLY_UI_SCROLLER"
+],
+"versionDefines": []
+}

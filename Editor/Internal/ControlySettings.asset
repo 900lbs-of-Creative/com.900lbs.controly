@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 144e2888bb898c1468cf9b806e8bed3f, type: 3}
-  m_Name: UIFrameworkSettings
+  m_Name: ControlySettings
   m_EditorClassIdentifier: 
   DoozyEngineDetected: 1
   EnhancedScrollerDetected: 1

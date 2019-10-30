@@ -3,7 +3,7 @@
 using EnhancedUI;
 using EnhancedUI.EnhancedScroller;
 
-namespace NineHundredLbs.UIFramework
+namespace NineHundredLbs.Controly.UI.Scroller
 {
     /// <summary>
     /// Base implementation of properties for <see cref="AScrollerController{TScrollerProperties}"/> objects.

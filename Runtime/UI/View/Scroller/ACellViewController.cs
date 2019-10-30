@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+
 using EnhancedUI.EnhancedScroller;
 
-namespace NineHundredLbs.UIFramework
+namespace NineHundredLbs.Controly.UI.Scroller
 {
     /// <summary>
     /// Base implementation for properties of <see cref="ACellViewController{TCellViewProperties}"/> objects.

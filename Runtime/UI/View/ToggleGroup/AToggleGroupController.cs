@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace NineHundredLbs.UIFramework
+namespace NineHundredLbs.Controly.UI
 {
     /// <summary>
     /// Base implementation of properties for <see cref="AToggleGroupController{TToggleGroupProperties, TToggleController, TToggleProperties}"/> objects.

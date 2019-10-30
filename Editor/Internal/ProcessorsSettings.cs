@@ -2,11 +2,11 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace NineHundredLbs.UIFramework.Editor
+namespace NineHundredLbs.Controly.Editor
 {
     public class ProcessorsSettings : ScriptableObject
     {
-        private static string AssetPath { get => Path.Combine(UIFrameworkPath.EDITOR_INTERNAL_PATH , "ProcessorsSettings.asset"); }
+        private static string AssetPath { get => Path.Combine(ControlyPath.EDITOR_INTERNAL_PATH , "ProcessorsSettings.asset"); }
 
         private static ProcessorsSettings m_Instance;
 
@@ -21,7 +21,7 @@ namespace NineHundredLbs.UIFramework.Editor
                 if (m_Instance == null)
                     throw new System.Exception("Unable to find ProcessorsSettings asset at " + AssetPath);
 
-                UIFrameworkEditorUtils.SetDirty(m_Instance, true);
+                ControlyEditorUtils.SetDirty(m_Instance, true);
                 return m_Instance;
             }
         }
@@ -32,6 +32,6 @@ namespace NineHundredLbs.UIFramework.Editor
         /// [Editor Only] Marks target object as dirty. (Only suitable for non-scene objects)
         /// </summary>
         /// <param name="saveAssets"> Write all unsaved asset changed to disk? </param>
-        public void SetDirty(bool saveAssets) => UIFrameworkEditorUtils.SetDirty(this, saveAssets);
+        public void SetDirty(bool saveAssets) => ControlyEditorUtils.SetDirty(this, saveAssets);
     }
 }

@@ -1,9 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace NineHundredLbs.UIFramework.Editor
+namespace NineHundredLbs.Controly.Editor
 {
-    public static class UIFrameworkEditorUtils
+    public static class ControlyEditorUtils
     {
         public static void SetDirty(Object target, bool saveAssets)
         {

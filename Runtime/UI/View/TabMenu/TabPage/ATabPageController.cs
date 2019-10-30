@@ -1,4 +1,4 @@
-﻿namespace NineHundredLbs.UIFramework
+﻿namespace NineHundredLbs.Controly.UI
 {
     #region Classes
     /// <summary>

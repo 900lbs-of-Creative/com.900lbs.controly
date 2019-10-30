@@ -7,5 +7,6 @@
   "author": {
     "name": "Daniel Colina",
     "email": "dcolina@900lbs.com"
-  }
+  },
+  "hideInEditor": false
 }

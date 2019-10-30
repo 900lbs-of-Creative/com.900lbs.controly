@@ -2,7 +2,7 @@
 
 using Sirenix.OdinInspector;
 
-namespace NineHundredLbs.UIFramework
+namespace NineHundredLbs.Controly
 {
     #region Interfaces
     /// <summary>

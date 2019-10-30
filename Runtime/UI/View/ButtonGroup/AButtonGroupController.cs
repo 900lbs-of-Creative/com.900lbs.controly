@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace NineHundredLbs.UIFramework
+namespace NineHundredLbs.Controly.UI
 {
     /// <summary>
     /// Base implementation of properties for <see cref="AButtonGroupController{TButtonGroupProperties, TButtonController, TButtonProperties}"/> objects.

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEditor;
 
-namespace NineHundredLbs.UIFramework.Editor
+namespace NineHundredLbs.Controly.Editor
 {
     [InitializeOnLoad]
     public static class DefineSymbolsProcessor
@@ -13,12 +14,12 @@ namespace NineHundredLbs.UIFramework.Editor
         /// <summary>
         /// Define Symbol for Controly
         /// </summary>
-        private const string DEFINE_UIFRAMEWORK_UI = "UIFRAMEWORK_UI";
+        private const string DEFINE_UIFRAMEWORK_UI = "CONTROLY_UI";
 
         /// <summary>
         /// Define Symbol for 900lbs UI Framework's EnhancedScroller support.
         /// </summary>
-        private const string DEFINE_UIFRAMEWORK_SCROLLER = "UIFRAMEWORK_SCROLLER";
+        private const string DEFINE_CONTROLY_SCROLLER = "CONTROLY_UI_SCROLLER";
 
         /// <summary>
         /// Namespace for Doozy Engine.
@@ -30,7 +31,8 @@ namespace NineHundredLbs.UIFramework.Editor
         /// </summary>
         private const string NAMESPACE_ENHANCEDSCROLLER = "EnhancedUI";
 
-        private static UIFrameworkSettings Settings => UIFrameworkSettings.Instance;
+
+        private static ControlySettings Settings => ControlySettings.Instance;
         private static List<Assembly> m_Assemblies = new List<Assembly>();
         private static bool m_SaveAssets;
 
@@ -51,9 +53,9 @@ namespace NineHundredLbs.UIFramework.Editor
 
             UpdateAssemblies();
             UpdateInstalledPlugins();
+            UpdateAssemblyDefinitions();
             if (m_SaveAssets)
                 AssetDatabase.SaveAssets();
-            UpdateAssemblyDefinitions();
             UpdateScriptingDefineSymbols();
 
             ProcessorsSettings.Instance.RunDefineSymbolsProcessor = false;
@@ -94,7 +96,41 @@ namespace NineHundredLbs.UIFramework.Editor
 
         private static void UpdateAssemblyDefinitions()
         {
+            if (Settings.DoozyEngineDetected)
+            {
+                string doozyAssemblyName;
+                if (TryGetAssemblyByNamespace(NAMESPACE_DOOZY_ENGINE, out doozyAssemblyName))
+                {
+                    List<string> referencedAssemblies = new List<string>();
+                    referencedAssemblies.Add(ControlyPath.ASMDEF_CONTROLY);
+                    referencedAssemblies.Add(doozyAssemblyName);
 
+                    List<string> defineConstraints = new List<string>();
+                    defineConstraints.Add(DEFINE_UIFRAMEWORK_UI);
+
+                    File.WriteAllText(Path.Combine(ControlyPath.RUNTIME_UI_PATH, ControlyPath.ASMDEF_CONTROLY_UI + ".asmdef"), 
+                        GetAssemblyDefinitionString(ControlyPath.ASMDEF_CONTROLY_UI, referencedAssemblies, defineConstraints));
+                }
+            }
+
+            if (Settings.EnhancedScrollerDetected)
+            {
+                string enhancedScrollerAssemblyName;
+                if (TryGetAssemblyByNamespace(NAMESPACE_ENHANCEDSCROLLER, out enhancedScrollerAssemblyName))
+                {
+                    List<string> referencedAssemblies = new List<string>();
+                    referencedAssemblies.Add(ControlyPath.ASMDEF_CONTROLY);
+                    referencedAssemblies.Add(ControlyPath.ASMDEF_CONTROLY_UI);
+                    referencedAssemblies.Add(enhancedScrollerAssemblyName);
+
+                    List<string> defineConstraints = new List<string>();
+                    defineConstraints.Add(DEFINE_CONTROLY_SCROLLER);
+
+                    File.WriteAllText(Path.Combine(ControlyPath.RUNTIME_UI_VIEW_SCROLLER_PATH, ControlyPath.ASMDEF_CONTROLY_UI_VIEW_SCROLLER + ".asmdef"), 
+                        GetAssemblyDefinitionString(ControlyPath.ASMDEF_CONTROLY_UI_VIEW_SCROLLER, referencedAssemblies, defineConstraints));
+                }
+            }
+            m_SaveAssets = true;
         }
 
         private static void UpdateScriptingDefineSymbols()
@@ -105,11 +141,37 @@ namespace NineHundredLbs.UIFramework.Editor
                 RemoveGlobalDefine(DEFINE_UIFRAMEWORK_UI);
 
             if (Settings.EnhancedScrollerDetected)
-                AddGlobalDefine(DEFINE_UIFRAMEWORK_SCROLLER);
+                AddGlobalDefine(DEFINE_CONTROLY_SCROLLER);
             else
-                RemoveGlobalDefine(DEFINE_UIFRAMEWORK_SCROLLER);
+                RemoveGlobalDefine(DEFINE_CONTROLY_SCROLLER);
         }
 
+        private static bool TryGetAssemblyByNamespace(string nameSpace, out string assemblyName)
+        {
+            assemblyName = "";
+            foreach (Assembly assembly in m_Assemblies)
+            {
+                if (assembly == null)
+                    continue;
+
+                Type[] typesInAsm;
+                try
+                {
+                    typesInAsm = assembly.GetTypes();
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    typesInAsm = ex.Types.Where(t => t != null).ToArray();
+                }
+
+                if (typesInAsm.Any(type => type.Namespace == nameSpace))
+                {
+                    assemblyName = assembly.GetName().Name;
+                    return true;
+                }
+            }
+            return false;
+        }
 
         /// <summary>
         /// https://haacked.com/archive/2012/07/23/get-all-types-in-an-assembly.aspx/
@@ -144,8 +206,6 @@ namespace NineHundredLbs.UIFramework.Editor
 
             return false;
         }
-
-
 
         /// <summary>
         /// Adds a global define symbol for all <see cref="BuildTargetGroup"/>s with the given string <paramref name="id"/>.

@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Doozy.Engine.UI;
 
-namespace NineHundredLbs.UIFramework
+namespace NineHundredLbs.Controly.UI
 {
     #region Interfaces
     /// <summary>

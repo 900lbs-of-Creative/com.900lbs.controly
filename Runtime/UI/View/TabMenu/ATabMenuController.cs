@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace NineHundredLbs.UIFramework
+namespace NineHundredLbs.Controly.UI
 {
     /// <summary>
     /// Base implementation for properties of <see cref="ATabMenuController{TTabMenuProperties, TTabPageKey}"/> objects.
