@@ -1,7 +1,7 @@
 {
-  "name": "com.900lbs.uiframework",
+  "name": "com.900lbs.controly",
   "version": "1.0.0",
-  "displayName": "UI Framework",
+  "displayName": "Controly",
   "description": "A collection of abstract classes to handle UI management on data-driven systems. Requires DoozyUI and OdinInspector to function.",
   "unity": "2018.3",
   "author": {

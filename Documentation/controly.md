@@ -1,8 +1,8 @@
-# UI Framework
+# Controly
 
 ## Table of Contents
 
-- [UI Framework](#ui-framework)
+- [Controly](#controly)
   - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
   - [Controllers & Properties](#controllers--properties)
@@ -17,13 +17,13 @@
 
 ## Overview
 
-The UI Framework is a collection of abstract classes designed to help manage behaviour on data-driven user interfaces. Built to run parallel with DoozyUI components and serialized fully by the Odin Inspector, the framework allows for dynamic and property-driven entities.
+Controly is a collection of abstract classes designed to help manage behaviour on data-driven user interfaces. Built to run parallel with DoozyUI components and serialized fully by the Odin Inspector, the framework allows for dynamic and property-driven entities.
 
 This framework is designed to provide a foundation of back-end behaviours often repeated throughout UI code like data management, callbacks, and internal state tracking all while remaining decoupled from the front-end behaviour of the controlled entity.
 
 ## Controllers & Properties
 
-The framework is composed of two primary elements:
+Controly is composed of two primary elements:
 
 - **Controllers**: These are classes that control specific things, like a Toggle, Button, or any arbitrary entity.
 - **Properties**: These are classes usually declared alongside the controller they are intended for and describe how the controller will behave or what it will cause its controlled entity to display.

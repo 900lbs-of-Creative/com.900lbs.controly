@@ -1,0 +1,17 @@
+{
+    "name": "900lbs.UIFramework.Scroller",
+    "references": [
+        "900lbs.UIFramework",
+        "EnhancedScrollerAssembly"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "NINEHUNDREDLBS_UIFRAMEWORK_SCROLLER"
+    ],
+    "versionDefines": []
+}

@@ -1,5 +1,5 @@
 {
-    "name": "900lbs.UIFramework.Editor",
+    "name": "900lbs.Controly.Editor",
     "references": [],
     "includePlatforms": [
         "Editor"
