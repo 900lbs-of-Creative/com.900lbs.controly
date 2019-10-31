@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace NineHundredLbs.Controly.Editor
 {
@@ -40,7 +39,6 @@ namespace NineHundredLbs.Controly.Editor
 
                 DirectoryInfo baseDirectory = new DirectoryInfo(Path.Combine(PACKAGES_PATH, PACKAGE_NAME));
                 Debug.Assert(baseDirectory != null, "baseDirectory != null");
-                Assert.AreEqual(PACKAGE_NAME, baseDirectory.Name);
                 string baseDirectoryPath = baseDirectory.ToString().Replace('\\', '/');
                 m_BasePath = baseDirectoryPath;
                 return m_BasePath;
