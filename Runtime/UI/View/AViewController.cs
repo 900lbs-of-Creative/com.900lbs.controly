@@ -47,6 +47,7 @@ namespace NineHundredLbs.Controly.UI
     /// <summary>
     /// Base implementation of properties for <see cref="AViewController{TViewProperties}"/> objects.
     /// </summary>
+    [Serializable]
     public class AViewProperties : AEntityProperties { }
 
     /// <summary>

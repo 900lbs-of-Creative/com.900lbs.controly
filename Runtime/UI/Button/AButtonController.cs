@@ -141,10 +141,7 @@ namespace NineHundredLbs.Controly.UI
         /// changes.
         /// </summary>
         /// <param name="value">Whether interactability was changed to interactable (true) or uninteractable (false).</param>
-        protected virtual void AnimateInteractabilityChanged(bool value)
-        {
-            UIButton.CanvasGroup.alpha = value ? 1.0f : 0.15f;
-        }
+        protected virtual void AnimateInteractabilityChanged(bool value) { }
         #endregion
 
         #region Private Methods

@@ -20,16 +20,43 @@ namespace NineHundredLbs.Controly.Editor
                 m_Instance = AssetDatabase.LoadAssetAtPath<ControlySettings>(AssetPath);
 
                 if (m_Instance == null)
-                    throw new System.Exception("Unable to find ControlySettings asset at " + AssetPath);
+                    throw new Exception("Unable to find ControlySettings asset at " + AssetPath);
 
-                ControlyEditorUtils.SetDirty(m_Instance, true);
                 return m_Instance;
             }
         }
 
         public bool DoozyEngineDetected;
         public bool EnhancedScrollerDetected;
+        public bool AssetDatabaseSaveAssetsNeeded;
+        public bool AssetDatabaseRefreshNeeded;
 
+        /// <summary>
+        /// Executed if a Refresh was in order (due to the creation of assets) or a SaveAssets needed,
+        /// but NOT performed.
+        /// </summary>
+        public void SaveAndRefreshAssetDatabase()
+        {
+            if (AssetDatabaseRefreshNeeded)
+            {
+                AssetDatabaseSaveAssetsNeeded = false;
+                AssetDatabaseRefreshNeeded = false;
+                SetDirty(true);
+                AssetDatabase.Refresh();
+                return;
+            }
+
+            if (AssetDatabaseSaveAssetsNeeded)
+            {
+                AssetDatabaseSaveAssetsNeeded = false;
+                SetDirty(true);
+            }
+        }
+
+        /// <summary>
+        /// [Editor Only] Marks target object as dirty. (Only suitable for non-scene objects.
+        /// </summary>
+        /// <param name="saveAssets">Whether to write all unsaved asset changes to disk.</param>
         public void SetDirty(bool saveAssets) 
         { 
             ControlyEditorUtils.SetDirty(this, saveAssets); 

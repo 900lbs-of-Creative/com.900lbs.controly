@@ -17,7 +17,7 @@ namespace NineHundredLbs.Controly.Editor
         private const string DEFINE_UIFRAMEWORK_UI = "CONTROLY_UI";
 
         /// <summary>
-        /// Define Symbol for 900lbs UI Framework's EnhancedScroller support.
+        /// Define Symbol for Controly EnhancedScroller module.
         /// </summary>
         private const string DEFINE_CONTROLY_SCROLLER = "CONTROLY_UI_SCROLLER";
 
@@ -30,7 +30,6 @@ namespace NineHundredLbs.Controly.Editor
         /// Namespace for EnhancedScroller.
         /// </summary>
         private const string NAMESPACE_ENHANCEDSCROLLER = "EnhancedUI";
-
 
         private static ControlySettings Settings => ControlySettings.Instance;
         private static List<Assembly> m_Assemblies = new List<Assembly>();
@@ -90,6 +89,7 @@ namespace NineHundredLbs.Controly.Editor
 
             if (!saveAssets)
                 return;
+
             Settings.SetDirty(false);
             m_SaveAssets = true;
         }
@@ -233,7 +233,6 @@ namespace NineHundredLbs.Controly.Editor
             UnityEngine.Debug.Log(string.Format("Added global define \"{0}\" to {1} BuildTargetGroups", id, num));
         }
 
-
         /// <summary>
         /// Removes the global define symbol for all <see cref="BuildTargetGroup"/>s with the given string <paramref name="id"/>.
         /// </summary>
@@ -291,7 +290,6 @@ namespace NineHundredLbs.Controly.Editor
             if (string.IsNullOrEmpty(str1)) return !string.IsNullOrEmpty(str2);
             return true;
         }
-
 
         /// <summary>
         /// Constructs and returns a string to be written to an assembly definition file with the given 

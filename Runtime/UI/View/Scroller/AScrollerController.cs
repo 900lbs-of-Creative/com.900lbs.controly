@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 using EnhancedUI;
 using EnhancedUI.EnhancedScroller;
@@ -8,6 +9,7 @@ namespace NineHundredLbs.Controly.UI.Scroller
     /// <summary>
     /// Base implementation of properties for <see cref="AScrollerController{TScrollerProperties}"/> objects.
     /// </summary>
+    [Serializable]
     public class AScrollerProperties : AViewProperties
     {
         /// <summary>
