@@ -24,3 +24,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated properties for controllers that don't need special properties to be serialized by Unity rather than Odin, forcing the default drawer of nothing rather than Odin's special property drawer.
 - Attempted fix to the import automation pipeline.
 - Added a few comments and fixed a few typos and misnomers.
+
+## [1.0.2] - 2019-12-11
+
+### Planned
+- Reimplementation of the Tab Menu system.
+
+### Changed
+
+- Updated the IEntityController interface to IEntityController<T> to force a property type to be passed in.
+- Updated the three base UI classes (AViewController, AButtonController, AToggleController) to inherit from SerializedMonoBehaviour and instead implement the new IEntityController<T> interface for their unique properties.
+- Updated ACellViewController to implement the new IEntityController<T> interface.
+- Added a few comments and fixed a few typos and misnomers.
+
+### Removed
+- Removed ATabMenuController, ATabPageController, and ATabController. Plan to reimplement at some point in the future.

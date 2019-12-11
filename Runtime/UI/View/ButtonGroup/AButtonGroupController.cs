@@ -66,7 +66,7 @@ namespace NineHundredLbs.Controly.UI
         }
 
         /// <summary>
-        /// Handles method for populating controlled buttons.
+        /// Handler method for populating controlled buttons.
         /// </summary>
         protected virtual void PopulateButtons()
         {

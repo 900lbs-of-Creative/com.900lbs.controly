@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 using Doozy.Engine.UI;
+using Sirenix.OdinInspector;
 
 namespace NineHundredLbs.Controly.UI
 {
@@ -10,13 +11,16 @@ namespace NineHundredLbs.Controly.UI
     /// <summary>
     /// Interface that controllers of <see cref="Doozy.Engine.UI.UIToggle"/> objects must implement.
     /// </summary>
-    public interface IToggleController : IEntityController
+    public interface IToggleController
     {        
         /// <summary>
         /// Controlled <see cref="Doozy.Engine.UI.UIToggle"/> component.
         /// </summary>
         UIToggle UIToggle { get; }
 
+        /// <summary>
+        /// Invoked when <see cref="UIToggle"/> component's <see cref="UIToggle.OnValueChanged"/> occurs.
+        /// </summary>
         Action<IToggleController, bool> Toggled { get; set; }
 
         /// <summary>
@@ -52,10 +56,15 @@ namespace NineHundredLbs.Controly.UI
     /// <typeparam name="TToggleProperties">Type of properties for this controller.</typeparam>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UIToggle))]
-    public abstract class AToggleController<TToggleProperties> : AEntityController<TToggleProperties>, IToggleController 
+    public abstract class AToggleController<TToggleProperties> : SerializedMonoBehaviour, IEntityController<TToggleProperties>, IToggleController
         where TToggleProperties : AToggleProperties
     {
         #region Properties
+        /// <summary>
+        /// Properties of this toggle controller.
+        /// </summary>
+        public TToggleProperties Properties => properties;
+
         /// <summary>
         /// Controlled <see cref="Doozy.Engine.UI.UIToggle"/> component.
         /// </summary>
@@ -68,6 +77,9 @@ namespace NineHundredLbs.Controly.UI
         #endregion
 
         #region Serialized Private Variables
+        [Tooltip("Properties of this toggle controller.")]
+        [SerializeField] private TToggleProperties properties = null;
+
         [Tooltip("Controlled toggle component.")]
         [SerializeField] private UIToggle uiToggle = null;
         #endregion
@@ -92,6 +104,16 @@ namespace NineHundredLbs.Controly.UI
             m_blockOnValueChangedCallback = true;
         }
 
+        protected virtual void OnEnable()
+        {
+            AddListeners();
+        }
+
+        protected virtual void OnDisable()
+        {
+            RemoveListeners();
+        }
+
         protected virtual void Update()
         {
             if (m_previousInteractable != UIToggle.Interactable)
@@ -103,6 +125,16 @@ namespace NineHundredLbs.Controly.UI
         #endregion
 
         #region Public Methods
+        /// <summary>
+        /// Initialize with the given <paramref name="properties"/>.
+        /// </summary>
+        /// <param name="properties">Properties to initialize with.</param>
+        public void SetProperties(TToggleProperties properties)
+        {
+            this.properties = properties;
+            OnPropertiesSet();
+        }
+
         /// <summary>
         /// Toggles the value of <see cref="UIToggle"/> component's <see cref="UIToggle.IsOn"/> to the given
         /// <paramref name="value"/> without sending a backend callback.
@@ -144,20 +176,24 @@ namespace NineHundredLbs.Controly.UI
         /// <summary>
         /// Handler method for adding listeners.
         /// </summary>
-        protected override void AddListeners()
+        protected virtual void AddListeners()
         {
-            base.AddListeners();
             UIToggle.OnValueChanged.AddListener(OnValueChanged);
         }
 
         /// <summary>
         /// Handler method for removing listeners.
         /// </summary>
-        protected override void RemoveListeners()
+        protected virtual void RemoveListeners()
         {
-            base.RemoveListeners();
             UIToggle.OnValueChanged.RemoveListener(OnValueChanged);
         }
+
+        /// <summary>
+        /// Handler method for when <see cref="properties"/> have been set.
+        /// At this point, <see cref="Properties"/> can now be safely accessed.
+        /// </summary>
+        protected virtual void OnPropertiesSet() { }
 
         /// <summary>
         /// Handler method for backend functionality when <see cref="UIToggle"/> component's <see cref="UIToggle.OnValueChanged"/> occurs.

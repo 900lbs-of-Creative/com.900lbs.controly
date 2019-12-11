@@ -13,13 +13,18 @@ namespace NineHundredLbs.Controly
     /// <summary>
     /// Interface that controllers of entities with properties must implement.
     /// </summary>
-    public interface IEntityController
+    public interface IEntityController<T> where T : IEntityProperties
     {
         /// <summary>
-        /// Initialize with the given <paramref name="newProperties"/>.
+        /// Properties of this entity.
         /// </summary>
-        /// <param name="newProperties">Properties to initialize with.</param>
-        void SetProperties(IEntityProperties properties);
+        T Properties { get; }
+
+        /// <summary>
+        /// Initialize with the given <paramref name="properties"/>.
+        /// </summary>
+        /// <param name="properties">Properties to initialize with.</param>
+        void SetProperties(T properties);
     }
     #endregion
 
@@ -33,7 +38,7 @@ namespace NineHundredLbs.Controly
     /// Base implementation for a controller of an entity with the given properties of type <typeparamref name="TEntityProperties"/>.
     /// </summary>
     /// <typeparam name="TEntityProperties">Type of properties for this controller.</typeparam>
-    public abstract class AEntityController<TEntityProperties> : SerializedMonoBehaviour, IEntityController 
+    public abstract class AEntityController<TEntityProperties> : SerializedMonoBehaviour, IEntityController<TEntityProperties>
         where TEntityProperties : AEntityProperties
     {
         #region Properties
@@ -62,21 +67,13 @@ namespace NineHundredLbs.Controly
 
         #region Public Methods
         /// <summary>
-        /// Initialize with the given <paramref name="newProperties"/>.
+        /// Initialize with the given <paramref name="properties"/>.
         /// </summary>
-        /// <param name="newProperties">Properties to initialize with.</param>
-        public void SetProperties(IEntityProperties newProperties)
+        /// <param name="properties">Properties to initialize with.</param>
+        public void SetProperties(TEntityProperties properties)
         {
-            if (newProperties is TEntityProperties)
-            {
-                properties = (TEntityProperties)newProperties;
-                OnPropertiesSet();
-            }
-            else
-            {
-                throw new System.ArgumentException(string.Format("Invalid property type passed: {0}, expected {1}",
-                    newProperties.GetType(), properties.GetType()));
-            }
+            this.properties = properties;
+            OnPropertiesSet();
         }
         #endregion
 

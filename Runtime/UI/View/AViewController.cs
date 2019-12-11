@@ -2,19 +2,15 @@
 using UnityEngine;
 
 using Doozy.Engine.UI;
+using Sirenix.OdinInspector;
 
 namespace NineHundredLbs.Controly.UI
 {
     #region Interfaces
     /// <summary>
-    /// Interface that properties of <see cref="IViewController"/> objects must implement.
-    /// </summary>
-    public interface IViewProperties : IEntityProperties { }
-
-    /// <summary>
     /// Interface that controllers of <see cref="Doozy.Engine.UI.UIView"/> objects must implement.
     /// </summary>
-    public interface IViewController : IEntityController
+    public interface IViewController
     {
         /// <summary>
         /// Controlled <see cref="Doozy.Engine.UI.UIView"/> component.
@@ -61,10 +57,15 @@ namespace NineHundredLbs.Controly.UI
     /// <typeparam name="TViewProperties">Type of properties for this controller.</typeparam>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UIView))]
-    public abstract class AViewController<TViewProperties> : AEntityController<TViewProperties>, IViewController 
+    public abstract class AViewController<TViewProperties> : SerializedMonoBehaviour, IEntityController<TViewProperties>, IViewController
         where TViewProperties : AViewProperties
     {
         #region Properties
+        /// <summary>
+        /// Properties of this view controller.
+        /// </summary>
+        public TViewProperties Properties => properties;
+
         /// <summary>
         /// Controlled <see cref="Doozy.Engine.UI.UIView"/> component.
         /// </summary>
@@ -92,15 +93,42 @@ namespace NineHundredLbs.Controly.UI
         #endregion
 
         #region Serialized Private Variables
+        [Tooltip("Properties of this view controller")]
+        [SerializeField] private TViewProperties properties = null;
+
         [Tooltip("Controlled UIView component.")]
         [SerializeField] private UIView uiView = null;
+        #endregion
+
+        #region Unity Methods
+        protected virtual void OnEnable()
+        {
+            AddListeners();
+        }
+
+        protected virtual void OnDisable()
+        {
+            RemoveListeners();
+        }
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        /// Initialize with the given <paramref name="properties"/>.
+        /// </summary>
+        /// <param name="properties">Properties to initialize with.</param>
+        public void SetProperties(TViewProperties properties)
+        {
+            this.properties = properties;
+            OnPropertiesSet();
+        }
         #endregion
 
         #region Protected Methods
         /// <summary>
         /// Handler method for adding listeners.
         /// </summary>
-        protected override void AddListeners()
+        protected virtual void AddListeners()
         {
             uiView.ShowBehavior.OnStart.Event.AddListener(OnShowStarted);
             uiView.ShowBehavior.OnFinished.Event.AddListener(OnShowFinished);
@@ -111,13 +139,19 @@ namespace NineHundredLbs.Controly.UI
         /// <summary>
         /// Handler method for removing listeners.
         /// </summary>
-        protected override void RemoveListeners()
+        protected virtual void RemoveListeners()
         {
             uiView.ShowBehavior.OnStart.Event.RemoveListener(OnShowStarted);
             uiView.ShowBehavior.OnFinished.Event.RemoveListener(OnShowFinished);
             uiView.HideBehavior.OnStart.Event.RemoveListener(OnHideStarted);
             uiView.HideBehavior.OnFinished.Event.RemoveListener(OnHideFinished);
         }
+
+        /// <summary>
+        /// Handler method for when <see cref="properties"/> have been set.
+        /// At this point, <see cref="Properties"/> can now be safely accessed.
+        /// </summary>
+        protected virtual void OnPropertiesSet() { }
 
         /// <summary>
         /// Handler method for when the <see cref="uiView"/> component's <see cref="UIView.ShowBehavior"/> starts.

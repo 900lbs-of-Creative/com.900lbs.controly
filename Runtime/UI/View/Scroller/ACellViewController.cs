@@ -21,7 +21,7 @@ namespace NineHundredLbs.Controly.UI.Scroller
     /// Base implementation for a controller of a <see cref="EnhancedScrollerCellView"/> with the given properties of type <typeparamref name="TCellViewProperties"/>.
     /// </summary>
     /// <typeparam name="TCellViewProperties">Type properties for this controller.</typeparam>
-    public abstract class ACellViewController<TCellViewProperties> : EnhancedScrollerCellView, IEntityController
+    public abstract class ACellViewController<TCellViewProperties> : EnhancedScrollerCellView, IEntityController<TCellViewProperties>
         where TCellViewProperties : ACellViewProperties
     {
         #region Properties
@@ -50,21 +50,13 @@ namespace NineHundredLbs.Controly.UI.Scroller
 
         #region Public Methods
         /// <summary>
-        /// Initialize with the given <paramref name="newProperties"/>.
+        /// Initialize with the given <paramref name="properties"/>.
         /// </summary>
-        /// <param name="newProperties">Properties to initialize with.</param>
-        public void SetProperties(IEntityProperties newProperties)
+        /// <param name="properties">Properties to initialize with.</param>
+        public void SetProperties(TCellViewProperties properties)
         {
-            if (properties is TCellViewProperties)
-            {
-                properties = (TCellViewProperties)newProperties;
-                OnPropertiesSet();
-            }
-            else
-            {
-                throw new System.ArgumentException(string.Format("Invalid property type passed: {0}, expected {1}", 
-                    newProperties.GetType(), properties.GetType()));
-            }
+            this.properties = properties;
+            OnPropertiesSet();
         }
         #endregion
 

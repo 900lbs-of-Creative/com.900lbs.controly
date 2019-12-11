@@ -2,6 +2,7 @@
 using UnityEngine;
 
 using Doozy.Engine.UI;
+using Sirenix.OdinInspector;
 
 namespace NineHundredLbs.Controly.UI
 {
@@ -9,7 +10,7 @@ namespace NineHundredLbs.Controly.UI
     /// <summary>
     /// Interface that controllers of <see cref="Doozy.Engine.UI.UIButton"/> objects must implement.
     /// </summary>
-    public interface IButtonController : IEntityController
+    public interface IButtonController
     {
         /// <summary>
         /// Controlled <see cref="Doozy.Engine.UI.UIButton"/> component.
@@ -47,10 +48,15 @@ namespace NineHundredLbs.Controly.UI
     /// <typeparam name="TButtonProperties">Type of properties for this controller.</typeparam>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UIButton))]
-    public abstract class AButtonController<TButtonProperties> : AEntityController<TButtonProperties>, IButtonController 
+    public abstract class AButtonController<TButtonProperties> : SerializedMonoBehaviour, IEntityController<TButtonProperties>, IButtonController
         where TButtonProperties : AButtonProperties
     {
         #region Properties
+        /// <summary>
+        /// Properties of this button controller.
+        /// </summary>
+        public TButtonProperties Properties => properties;
+
         /// <summary>
         /// Controlled <see cref="Doozy.Engine.UI.UIButton"/> component.
         /// </summary>
@@ -63,7 +69,10 @@ namespace NineHundredLbs.Controly.UI
         #endregion
 
         #region Serialized Private Variables
-        [Tooltip("Controlled Button component.")]
+        [Tooltip("Properties of this button controller")]
+        [SerializeField] private TButtonProperties properties = null;
+
+        [Tooltip("Controlled UIButton component.")]
         [SerializeField] private UIButton uiButton = null;
         #endregion
 
@@ -81,6 +90,16 @@ namespace NineHundredLbs.Controly.UI
             m_previousInteractable = true;
         }
 
+        protected virtual void OnEnable()
+        {
+            AddListeners();
+        }
+
+        protected virtual void OnDisable()
+        {
+            RemoveListeners();
+        }
+
         protected virtual void Update()
         {
             if (m_previousInteractable != UIButton.Interactable)
@@ -93,6 +112,16 @@ namespace NineHundredLbs.Controly.UI
 
         #region Public Methods
         /// <summary>
+        /// Initialize with the given <paramref name="properties"/>.
+        /// </summary>
+        /// <param name="properties">Properties to initialize with.</param>
+        public void SetProperties(TButtonProperties properties)
+        {
+            this.properties = properties;
+            OnPropertiesSet();
+        }
+
+        /// <summary>
         /// Toggles the interactability of <see cref="UIButton"/> to the given <paramref name="value"/>.
         /// </summary>
         /// <param name="value">Whether to toggle to interactable (true) or uninteractable (false).</param>
@@ -103,17 +132,21 @@ namespace NineHundredLbs.Controly.UI
         #endregion
 
         #region Protected Methods
-        protected override void AddListeners()
+        protected virtual void AddListeners()
         {
-            base.AddListeners();
             UIButton.OnClick.OnTrigger.Event.AddListener(OnClick);
         }
 
-        protected override void RemoveListeners()
+        protected virtual void RemoveListeners()
         {
-            base.RemoveListeners();
             UIButton.OnClick.OnTrigger.Event.RemoveListener(OnClick);
         }
+
+        /// <summary>
+        /// Handler method for when <see cref="properties"/> have been set.
+        /// At this point, <see cref="Properties"/> can now be safely accessed.
+        /// </summary>
+        protected virtual void OnPropertiesSet() { }
 
         /// <summary>
         /// Handler method for backend functionality when <see cref="UIButton"/> component's <see cref="UIButton.OnClick"/> occurs.
