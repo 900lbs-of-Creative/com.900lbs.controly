@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-using Sirenix.OdinInspector;
-
 namespace NineHundredLbs.Controly
 {
     #region Interfaces
@@ -38,7 +36,7 @@ namespace NineHundredLbs.Controly
     /// Base implementation for a controller of an entity with the given properties of type <typeparamref name="TEntityProperties"/>.
     /// </summary>
     /// <typeparam name="TEntityProperties">Type of properties for this controller.</typeparam>
-    public abstract class AEntityController<TEntityProperties> : SerializedMonoBehaviour, IEntityController<TEntityProperties>
+    public abstract class AEntityController<TEntityProperties> : MonoBehaviour, IEntityController<TEntityProperties>
         where TEntityProperties : AEntityProperties
     {
         #region Properties

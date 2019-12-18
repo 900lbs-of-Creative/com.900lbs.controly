@@ -2,7 +2,6 @@
 using UnityEngine;
 
 using Doozy.Engine.UI;
-using Sirenix.OdinInspector;
 
 namespace NineHundredLbs.Controly.UI
 {
@@ -57,7 +56,7 @@ namespace NineHundredLbs.Controly.UI
     /// <typeparam name="TViewProperties">Type of properties for this controller.</typeparam>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UIView))]
-    public abstract class AViewController<TViewProperties> : SerializedMonoBehaviour, IEntityController<TViewProperties>, IViewController
+    public abstract class AViewController<TViewProperties> : MonoBehaviour, IEntityController<TViewProperties>, IViewController
         where TViewProperties : AViewProperties
     {
         #region Properties

@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.2] - 2019-12-11
 
 ### Planned
+
 - Reimplementation of the Tab Menu system.
 
 ### Changed
@@ -38,4 +39,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a few comments and fixed a few typos and misnomers.
 
 ### Removed
+
 - Removed ATabMenuController, ATabPageController, and ATabController. Plan to reimplement at some point in the future.
+
+## [1.1.0] - 2019-12-18
+
+### Planned
+
+- Once OdinInspector fully supports nested prefabs, a re-implementation or re-addressal of SerializedMonoBehaviour. See the [Odin roadmap]("https://odininspector.com/roadmap") for information.
+  
+### Added
+
+- Added a new class called SerializedDictionary<TKey, TValue> to allow for the now MonoBehaviour behaviours to have serialized Dictionaries.
+
+### Changed
+
+- Replaced base classes for all custom class implementations to MonoBehaviour as opposed to SerializedMonoBehaviour to prevent serialization loss issues.
+- Removed dependencies on OdinInspector.

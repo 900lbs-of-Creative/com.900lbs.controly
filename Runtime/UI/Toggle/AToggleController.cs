@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine;
 
 using Doozy.Engine.UI;
-using Sirenix.OdinInspector;
 
 namespace NineHundredLbs.Controly.UI
 {
@@ -56,7 +55,7 @@ namespace NineHundredLbs.Controly.UI
     /// <typeparam name="TToggleProperties">Type of properties for this controller.</typeparam>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UIToggle))]
-    public abstract class AToggleController<TToggleProperties> : SerializedMonoBehaviour, IEntityController<TToggleProperties>, IToggleController
+    public abstract class AToggleController<TToggleProperties> : MonoBehaviour, IEntityController<TToggleProperties>, IToggleController
         where TToggleProperties : AToggleProperties
     {
         #region Properties

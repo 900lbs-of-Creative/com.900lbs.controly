@@ -2,7 +2,6 @@
 using UnityEngine;
 
 using Doozy.Engine.UI;
-using Sirenix.OdinInspector;
 
 namespace NineHundredLbs.Controly.UI
 {
@@ -48,7 +47,7 @@ namespace NineHundredLbs.Controly.UI
     /// <typeparam name="TButtonProperties">Type of properties for this controller.</typeparam>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UIButton))]
-    public abstract class AButtonController<TButtonProperties> : SerializedMonoBehaviour, IEntityController<TButtonProperties>, IButtonController
+    public abstract class AButtonController<TButtonProperties> : MonoBehaviour , IEntityController<TButtonProperties>, IButtonController
         where TButtonProperties : AButtonProperties
     {
         #region Properties
