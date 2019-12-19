@@ -1,3 +1,3 @@
 # Controly
 
-A collection of abstract classes to handle UI management on data-driven systems.
+A collection of classes and interfaces build to handle management on data-driven systems.
