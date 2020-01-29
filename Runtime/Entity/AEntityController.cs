@@ -4,40 +4,35 @@ namespace NineHundredLbs.Controly
 {
     #region Interfaces
     /// <summary>
-    /// Interface that properties of <see cref="IEntityController"/> objects must implement.
+    /// Interface for properties of entity objects.
     /// </summary>
     public interface IEntityProperties { }
 
     /// <summary>
-    /// Interface that controllers of entities with properties must implement.
+    /// Interface for controllers of entity objects with properties.
     /// </summary>
-    public interface IEntityController<T> where T : IEntityProperties
+    public interface IEntityController<TEntityProperties> where TEntityProperties : IEntityProperties
     {
         /// <summary>
         /// Properties of this entity.
         /// </summary>
-        T Properties { get; }
+        TEntityProperties Properties { get; }
 
         /// <summary>
         /// Initialize with the given <paramref name="properties"/>.
         /// </summary>
         /// <param name="properties">Properties to initialize with.</param>
-        void SetProperties(T properties);
+        void SetProperties(TEntityProperties properties);
     }
     #endregion
 
     #region Classes
     /// <summary>
-    /// Base implementation for properties of <see cref="AEntityController{TEntityProperties}"/> objects.
-    /// </summary>
-    public abstract class AEntityProperties : IEntityProperties { }
-
-    /// <summary>
     /// Base implementation for a controller of an entity with the given properties of type <typeparamref name="TEntityProperties"/>.
     /// </summary>
     /// <typeparam name="TEntityProperties">Type of properties for this controller.</typeparam>
     public abstract class AEntityController<TEntityProperties> : MonoBehaviour, IEntityController<TEntityProperties>
-        where TEntityProperties : AEntityProperties
+        where TEntityProperties : IEntityProperties
     {
         #region Properties
         /// <summary>

@@ -13,7 +13,6 @@
     - [Toggle Group Controllers](#toggle-group-controllers)
     - [Button Group Controllers](#button-group-controllers)
     - [Scroller Controllers](#scroller-controllers)
-    - [Tab Menu Controllers](#tab-menu-controllers)
 
 ## Overview
 
@@ -487,16 +486,9 @@ For an example, see the ExampleScrollerController that controls a group of Examp
   #endregion
 
   #region ExampleScrollerController
-  // Make sure your custom properties inherits from AScrollerProperties.
-  [System.Serializable]
-  public class ExampleScrollerProperties : AScrollerProperties
+  public class ExampleScrollerController : AScrollerController
   {
-    public List<int> dataSet;
-  }
-
-  public class ExampleScrollerController : AScrollerController<ExampleScrollerProperties>
-  {
-    // Make sure you store the prefabs for the cell view types 
+    // Make sure you store the prefabs for the cell view types
     [SerializeField] private ExampleCellViewController exampleCellViewPrefab;
 
     public override EnhancedScrollerCellView GetCellView(EnhancedScroller scroller, int dataIndex, int cellIndex)

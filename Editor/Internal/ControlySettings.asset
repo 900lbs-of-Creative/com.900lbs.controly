@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DoozyEngineDetected: 1
   EnhancedScrollerDetected: 1
+  AssetDatabaseSaveAssetsNeeded: 0
+  AssetDatabaseRefreshNeeded: 0

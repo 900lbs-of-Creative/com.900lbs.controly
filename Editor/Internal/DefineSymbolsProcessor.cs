@@ -14,7 +14,7 @@ namespace NineHundredLbs.Controly.Editor
         /// <summary>
         /// Define Symbol for Controly
         /// </summary>
-        private const string DEFINE_UIFRAMEWORK_UI = "CONTROLY_UI";
+        private const string DEFINE_CONTROLY_UI = "CONTROLY_UI";
 
         /// <summary>
         /// Define Symbol for Controly EnhancedScroller module.
@@ -106,7 +106,7 @@ namespace NineHundredLbs.Controly.Editor
                     referencedAssemblies.Add(doozyAssemblyName);
 
                     List<string> defineConstraints = new List<string>();
-                    defineConstraints.Add(DEFINE_UIFRAMEWORK_UI);
+                    defineConstraints.Add(DEFINE_CONTROLY_UI);
 
                     File.WriteAllText(Path.Combine(ControlyPath.RUNTIME_UI_PATH, ControlyPath.ASMDEF_CONTROLY_UI + ".asmdef"), 
                         GetAssemblyDefinitionString(ControlyPath.ASMDEF_CONTROLY_UI, referencedAssemblies, defineConstraints));
@@ -133,12 +133,18 @@ namespace NineHundredLbs.Controly.Editor
             m_SaveAssets = true;
         }
 
+        private static void TryClearScriptingDefineSymbols()
+        {
+            RemoveGlobalDefine(DEFINE_CONTROLY_UI);
+            RemoveGlobalDefine(DEFINE_CONTROLY_SCROLLER);
+        }
+
         private static void UpdateScriptingDefineSymbols()
         {
             if (Settings.DoozyEngineDetected)
-                AddGlobalDefine(DEFINE_UIFRAMEWORK_UI);
+                AddGlobalDefine(DEFINE_CONTROLY_UI);
             else
-                RemoveGlobalDefine(DEFINE_UIFRAMEWORK_UI);
+                RemoveGlobalDefine(DEFINE_CONTROLY_UI);
 
             if (Settings.EnhancedScrollerDetected)
                 AddGlobalDefine(DEFINE_CONTROLY_SCROLLER);
@@ -154,17 +160,17 @@ namespace NineHundredLbs.Controly.Editor
                 if (assembly == null)
                     continue;
 
-                Type[] typesInAsm;
+                Type[] typesInAssembly;
                 try
                 {
-                    typesInAsm = assembly.GetTypes();
+                    typesInAssembly = assembly.GetTypes();
                 }
                 catch (ReflectionTypeLoadException ex)
                 {
-                    typesInAsm = ex.Types.Where(t => t != null).ToArray();
+                    typesInAssembly = ex.Types.Where(t => t != null).ToArray();
                 }
 
-                if (typesInAsm.Any(type => type.Namespace == nameSpace))
+                if (typesInAssembly.Any(type => type.Namespace == nameSpace))
                 {
                     assemblyName = assembly.GetName().Name;
                     return true;

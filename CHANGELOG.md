@@ -5,7 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.0.0] - 2020-1-29
+
+### Planned
+
+- Once OdinInspector fully supports nested prefabs, a re-implementation or re-addressal of SerializedMonoBehaviour. See the [Odin roadmap]("https://odininspector.com/roadmap") for information and possible dates.
+
+### Changed
+
+- Reworked many base abstract classes to implement and depend on interfaces and rather than implementations.
+
+### Fixed
+
+- Fixed a few typos throughout documentation, classes, and comments.
+
+### Removed
+
+- Removed various base implementation classes, particularly Property classes.
+
+## [1.1.0] - 2019-12-18
+
+### Added
+
+- Added a new class called SerializedDictionary<TKey, TValue> to allow for the now MonoBehaviour behaviours to have serialized Dictionaries.
+
+### Changed
+
+- Replaced base classes for all custom class implementations to MonoBehaviour as opposed to SerializedMonoBehaviour to prevent serialization loss issues.
+- Removed dependencies on OdinInspector.
+
+## [1.0.2] - 2019-12-11
+
+### Changed
+
+- Updated the IEntityController interface to IEntityController<T> to force a property type to be passed in.
+- Updated the three base UI classes (AViewController, AButtonController, AToggleController) to inherit from SerializedMonoBehaviour and instead implement the new IEntityController<T> interface for their unique properties.
+- Updated ACellViewController to implement the new IEntityController<T> interface.
+- Added a few comments and fixed a few typos and misnomers.
+
+### Removed
+
+- Removed ATabMenuController, ATabPageController, and ATabController. Plan to reimplement at some point in the future.
 
 ## [1.0.0] - 2019-10-30
 
@@ -25,34 +65,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Attempted fix to the import automation pipeline.
 - Added a few comments and fixed a few typos and misnomers.
 
-## [1.0.2] - 2019-12-11
-
-### Planned
-
-- Reimplementation of the Tab Menu system.
-
-### Changed
-
-- Updated the IEntityController interface to IEntityController<T> to force a property type to be passed in.
-- Updated the three base UI classes (AViewController, AButtonController, AToggleController) to inherit from SerializedMonoBehaviour and instead implement the new IEntityController<T> interface for their unique properties.
-- Updated ACellViewController to implement the new IEntityController<T> interface.
-- Added a few comments and fixed a few typos and misnomers.
-
-### Removed
-
-- Removed ATabMenuController, ATabPageController, and ATabController. Plan to reimplement at some point in the future.
-
-## [1.1.0] - 2019-12-18
-
-### Planned
-
-- Once OdinInspector fully supports nested prefabs, a re-implementation or re-addressal of SerializedMonoBehaviour. See the [Odin roadmap]("https://odininspector.com/roadmap") for information.
-  
-### Added
-
-- Added a new class called SerializedDictionary<TKey, TValue> to allow for the now MonoBehaviour behaviours to have serialized Dictionaries.
-
-### Changed
-
-- Replaced base classes for all custom class implementations to MonoBehaviour as opposed to SerializedMonoBehaviour to prevent serialization loss issues.
-- Removed dependencies on OdinInspector.
+## [Unreleased]

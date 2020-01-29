@@ -7,6 +7,11 @@ namespace NineHundredLbs.Controly.UI
 {
     #region Interfaces
     /// <summary>
+    /// Interface for properties of controllers of <see cref="Doozy.Engine.UI.UIButton"/> objects.
+    /// </summary>
+    public interface IButtonProperties : IEntityProperties { }
+
+    /// <summary>
     /// Interface that controllers of <see cref="Doozy.Engine.UI.UIButton"/> objects must implement.
     /// </summary>
     public interface IButtonController
@@ -31,15 +36,9 @@ namespace NineHundredLbs.Controly.UI
 
     #region Classes
     /// <summary>
-    /// Base implementation for properties of <see cref="AButtonController{TButtonProperties}"/> objects.
+    /// Base implementation for a controller of a <see cref="UIButton"/> with default properties of type <see cref="IButtonProperties"/>.
     /// </summary>
-    [Serializable]
-    public class AButtonProperties : AEntityProperties { }
-
-    /// <summary>
-    /// Base implementation for a controller of a <see cref="UIButton"/> with default properties of type <see cref="AButtonProperties"/>.
-    /// </summary>
-    public abstract class AButtonController : AButtonController<AButtonProperties> { }
+    public abstract class AButtonController : AButtonController<IButtonProperties> { }
 
     /// <summary>
     /// Base implementation for a controller of a <see cref="Doozy.Engine.UI.UIButton"/> with the given properties of type <typeparamref name="TButtonProperties"/>.
@@ -48,7 +47,7 @@ namespace NineHundredLbs.Controly.UI
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UIButton))]
     public abstract class AButtonController<TButtonProperties> : MonoBehaviour , IEntityController<TButtonProperties>, IButtonController
-        where TButtonProperties : AButtonProperties
+        where TButtonProperties : IButtonProperties
     {
         #region Properties
         /// <summary>
@@ -69,7 +68,7 @@ namespace NineHundredLbs.Controly.UI
 
         #region Serialized Private Variables
         [Tooltip("Properties of this button controller")]
-        [SerializeField] private TButtonProperties properties = null;
+        [SerializeField] private TButtonProperties properties;
 
         [Tooltip("Controlled UIButton component.")]
         [SerializeField] private UIButton uiButton = null;

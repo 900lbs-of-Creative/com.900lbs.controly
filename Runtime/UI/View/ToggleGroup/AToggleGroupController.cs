@@ -5,17 +5,17 @@ using UnityEngine.UI;
 namespace NineHundredLbs.Controly.UI
 {
     /// <summary>
-    /// Base implementation of properties for <see cref="AToggleGroupController{TToggleGroupProperties, TToggleController, TToggleProperties}"/> objects.
+    /// Interface for properties of controllers of <see cref="ToggleGroup"/> objects.
     /// </summary>
     /// <typeparam name="TToggleProperties">Type of properties for toggles controlled by the toggle group holding these properties.</typeparam>
-    public abstract class AToggleGroupProperties<TToggleProperties> : AViewProperties where TToggleProperties : AToggleProperties
+    public interface IToggleGroupProperties<TToggleProperties> : IViewProperties where TToggleProperties : IToggleProperties
     {
         /// <summary>
         /// Gets and returns a list of properties for toggles controlled
         /// by the toggle group holding these properties.
         /// </summary>
         /// <returns>List of toggle properties.</returns>
-        public abstract List<TToggleProperties> GetToggleProperties();
+        List<TToggleProperties> GetToggleProperties();
     }
 
     /// <summary>
@@ -26,9 +26,9 @@ namespace NineHundredLbs.Controly.UI
     /// <typeparam name="TToggleController">Type of controlled toggles.</typeparam>
     /// <typeparam name="TToggleProperties">Type of properties of controlled toggles.</typeparam>
     public abstract class AToggleGroupController<TToggleGroupProperties, TToggleController, TToggleProperties> : AViewController<TToggleGroupProperties>
-        where TToggleGroupProperties : AToggleGroupProperties<TToggleProperties>
+        where TToggleGroupProperties : IToggleGroupProperties<TToggleProperties>
         where TToggleController : AToggleController<TToggleProperties>
-        where TToggleProperties : AToggleProperties
+        where TToggleProperties : IToggleProperties
     {
         #region Properties
         /// <summary>
@@ -57,7 +57,7 @@ namespace NineHundredLbs.Controly.UI
         #endregion
 
         #region Unity Methods
-        private void Awake()
+        protected virtual void Awake()
         {
             foreach (TToggleController toggle in Toggles)
                 toggle.Toggled += (x, y) => Toggle_Toggled(toggle, y);
@@ -103,7 +103,7 @@ namespace NineHundredLbs.Controly.UI
         }
 
         /// <summary>
-        /// Handler method for when a controlled toggle is clicked.
+        /// Handler method for when a controlled toggle's value is changed.
         /// </summary>
         /// <param name="toggle">The toggled toggle.</param>
         /// <param name="value">The value toggled to.</param>

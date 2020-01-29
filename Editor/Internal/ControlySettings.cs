@@ -54,7 +54,7 @@ namespace NineHundredLbs.Controly.Editor
         }
 
         /// <summary>
-        /// [Editor Only] Marks target object as dirty. (Only suitable for non-scene objects.
+        /// [Editor Only] Marks target object as dirty. (Only suitable for non-scene objects).
         /// </summary>
         /// <param name="saveAssets">Whether to write all unsaved asset changes to disk.</param>
         public void SetDirty(bool saveAssets) 

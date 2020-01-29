@@ -7,7 +7,12 @@ namespace NineHundredLbs.Controly.UI
 {
     #region Interfaces
     /// <summary>
-    /// Interface that controllers of <see cref="Doozy.Engine.UI.UIView"/> objects must implement.
+    /// Interface for properties of controllers of <see cref="UIView"/> objects.
+    /// </summary>
+    public interface IViewProperties : IEntityProperties { }
+
+    /// <summary>
+    /// Interface for controllers of <see cref="Doozy.Engine.UI.UIView"/> objects.
     /// </summary>
     public interface IViewController
     {
@@ -40,15 +45,9 @@ namespace NineHundredLbs.Controly.UI
 
     #region Classes
     /// <summary>
-    /// Base implementation of properties for <see cref="AViewController{TViewProperties}"/> objects.
-    /// </summary>
-    [Serializable]
-    public class AViewProperties : AEntityProperties { }
-
-    /// <summary>
     /// Base implementation for a controller of a <see cref="UIView"/> with default properties of type <see cref="AViewProperties"/>.
     /// </summary>
-    public abstract class AViewController : AViewController<AViewProperties> { }
+    public abstract class AViewController : AViewController<IViewProperties> { }
 
     /// <summary>
     /// Base implementation for a controller of a <see cref="Doozy.Engine.UI.UIView"/> with the given properties of type <typeparamref name="TViewProperties"/>.
@@ -57,7 +56,7 @@ namespace NineHundredLbs.Controly.UI
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UIView))]
     public abstract class AViewController<TViewProperties> : MonoBehaviour, IEntityController<TViewProperties>, IViewController
-        where TViewProperties : AViewProperties
+        where TViewProperties : IViewProperties
     {
         #region Properties
         /// <summary>
@@ -93,7 +92,7 @@ namespace NineHundredLbs.Controly.UI
 
         #region Serialized Private Variables
         [Tooltip("Properties of this view controller")]
-        [SerializeField] private TViewProperties properties = null;
+        [SerializeField] private TViewProperties properties;
 
         [Tooltip("Controlled UIView component.")]
         [SerializeField] private UIView uiView = null;

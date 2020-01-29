@@ -1,34 +1,24 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 using EnhancedUI;
 using EnhancedUI.EnhancedScroller;
 
 namespace NineHundredLbs.Controly.UI.Scroller
-{
+{    
     /// <summary>
-    /// Base implementation of properties for <see cref="AScrollerController{TScrollerProperties}"/> objects.
+    /// Interface for properties of controllers of <see cref="EnhancedScroller"/> objects.
     /// </summary>
-    [Serializable]
-    public class AScrollerProperties : AViewProperties
+    public interface IScrollerProperties : IViewProperties
     {
-        /// <summary>
-        /// Collection of <see cref="ACellViewProperties"/> used by the scroller holding these properties.
-        /// </summary>
-        public SmallList<ACellViewProperties> ScrollerData { get; private set; } = new SmallList<ACellViewProperties>();
+        SmallList<ICellViewProperties> ScrollerData { get; }
     }
-
-    /// <summary>
-    /// Base implementation for a controller of a <see cref="EnhancedScroller"/> with default properties of type <see cref="AScrollerProperties"/>.
-    /// </summary>
-    public abstract class AScrollerController : AScrollerController<AScrollerProperties> { }
 
     /// <summary>
     /// Base implementation for a controller of a <see cref="EnhancedScroller"/> with the given properties of type <typeparamref name="TScrollerProperties"/>.
     /// </summary>
     /// <typeparam name="TScrollerProperties">Type of properties for this controller.</typeparam>
     public abstract class AScrollerController<TScrollerProperties> : AViewController<TScrollerProperties>, IEnhancedScrollerDelegate
-        where TScrollerProperties : AScrollerProperties
+        where TScrollerProperties : IScrollerProperties
     {
         #region Properties
         /// <summary>
@@ -52,7 +42,7 @@ namespace NineHundredLbs.Controly.UI.Scroller
         #region Public Methods
         /// <summary>
         /// Gets and returns the number of <see cref="EnhancedScrollerCellView"/> objects to be populated.
-        /// By default returns the count of the <see cref="IScrollerProperties{T}.ScrollerData"/>
+        /// By default returns the count of the <see cref="IScrollerProperties.ScrollerData"/>
         /// </summary>
         /// <param name="scroller">Scroller requesting the cell view count.</param>
         /// <returns>Number of cell views.</returns>
@@ -73,7 +63,7 @@ namespace NineHundredLbs.Controly.UI.Scroller
         /// Gets and returns the size of the cell view at the given <paramref name="dataIndex"/>.
         /// By default delegates to the <see cref="ICellViewProperties"/> object's 
         /// <see cref="ICellViewProperties.GetCellViewSize"/> method at the 
-        /// <paramref name="dataIndex"/> in stored <see cref="IScrollerProperties{T}.ScrollerData"/>.
+        /// <paramref name="dataIndex"/> in stored <see cref="IScrollerProperties.ScrollerData"/>.
         /// </summary>
         /// <param name="scroller">The scroller requesting the cell view size.</param>
         /// <param name="dataIndex">The index that data is being requested for.</param>

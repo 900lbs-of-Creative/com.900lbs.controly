@@ -5,24 +5,24 @@ using EnhancedUI.EnhancedScroller;
 namespace NineHundredLbs.Controly.UI.Scroller
 {
     /// <summary>
-    /// Base implementation for properties of <see cref="ACellViewController{TCellViewProperties}"/> objects.
+    /// Interface for properties of controllers of <see cref="EnhancedScrollerCellView"/> objects.
     /// </summary>
-    public abstract class ACellViewProperties : AEntityProperties
+    public interface ICellViewProperties : IEntityProperties
     {
         /// <summary>
         /// Calculates and returns the size of the cell view holding
         /// these properties.
         /// </summary>
         /// <returns>Size of the cell view.</returns>
-        public abstract float GetCellViewSize();
+        float GetCellViewSize();
     }
 
-    /// <summary>
+    /// <summary>asdfasdfad
     /// Base implementation for a controller of a <see cref="EnhancedScrollerCellView"/> with the given properties of type <typeparamref name="TCellViewProperties"/>.
     /// </summary>
     /// <typeparam name="TCellViewProperties">Type properties for this controller.</typeparam>
     public abstract class ACellViewController<TCellViewProperties> : EnhancedScrollerCellView, IEntityController<TCellViewProperties>
-        where TCellViewProperties : ACellViewProperties
+        where TCellViewProperties : ICellViewProperties
     {
         #region Properties
         /// <summary>

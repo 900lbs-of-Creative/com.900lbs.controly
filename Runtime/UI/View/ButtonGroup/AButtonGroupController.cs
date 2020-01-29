@@ -4,18 +4,18 @@ using UnityEngine;
 namespace NineHundredLbs.Controly.UI
 {
     /// <summary>
-    /// Base implementation of properties for <see cref="AButtonGroupController{TButtonGroupProperties, TButtonController, TButtonProperties}"/> objects.
+    /// Interface for properties of controllers of button group objects.
     /// </summary>
     /// <typeparam name="TButtonProperties">Type of properties for buttons controlled by the button group holding these properties.</typeparam>
-    public abstract class AButtonGroupProperties<TButtonProperties> : AViewProperties 
-        where TButtonProperties : AButtonProperties
+    public interface IButtonGroupProperties<TButtonProperties> : IViewProperties
+        where TButtonProperties : IButtonProperties
     {
         /// <summary>
         /// Gets and returns a list of properties for buttons controlled
         /// by the button group holding these properties.
         /// </summary>
         /// <returns>List of button properties.</returns>
-        public abstract List<TButtonProperties> GetButtonProperties();
+        List<TButtonProperties> GetButtonProperties();
     }
 
     /// <summary>
@@ -26,9 +26,9 @@ namespace NineHundredLbs.Controly.UI
     /// <typeparam name="TButtonController">Type of controlled buttons.</typeparam>
     /// <typeparam name="TButtonProperties">Type of properties of controlled buttons.</typeparam>
     public abstract class AButtonGroupController<TButtonGroupProperties, TButtonController, TButtonProperties> : AViewController<TButtonGroupProperties>
-        where TButtonGroupProperties : AButtonGroupProperties<TButtonProperties>
+        where TButtonGroupProperties : IButtonGroupProperties<TButtonProperties>
         where TButtonController : AButtonController<TButtonProperties>
-        where TButtonProperties : AButtonProperties
+        where TButtonProperties : IButtonProperties
     {
         #region Properties
         /// <summary>

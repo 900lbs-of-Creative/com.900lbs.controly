@@ -8,7 +8,12 @@ namespace NineHundredLbs.Controly.UI
 {
     #region Interfaces
     /// <summary>
-    /// Interface that controllers of <see cref="Doozy.Engine.UI.UIToggle"/> objects must implement.
+    /// Interface for properties of controllers of <see cref="Doozy.Engine.UI.UIToggle"/> objects.
+    /// </summary>
+    public interface IToggleProperties : IEntityProperties { }
+
+    /// <summary>
+    /// Interface for controllers of <see cref="Doozy.Engine.UI.UIToggle"/> objects.
     /// </summary>
     public interface IToggleController
     {        
@@ -39,15 +44,9 @@ namespace NineHundredLbs.Controly.UI
 
     #region Classes
     /// <summary>
-    /// Base implementation for properties of <see cref="AToggleController{TToggleProperties}"/> objects.
+    /// Base implementation for a controller of a <see cref="UIToggle"/> with default properties of type <see cref="IToggleProperties"/>.
     /// </summary>
-    [Serializable]
-    public class AToggleProperties : AEntityProperties { }
-
-    /// <summary>
-    /// Base implementation for a controller of a <see cref="UIToggle"/> with default properties of type <see cref="AToggleProperties"/>.
-    /// </summary>
-    public abstract class AToggleController : AToggleController<AToggleProperties> { }
+    public abstract class AToggleController : AToggleController<IToggleProperties> { }
 
     /// <summary>
     /// Base implementation for a controller of a <see cref="Doozy.Engine.UI.UIToggle"/> with the given properties of type <typeparamref name="TToggleProperties"/>.
@@ -56,7 +55,7 @@ namespace NineHundredLbs.Controly.UI
     [DisallowMultipleComponent]
     [RequireComponent(typeof(UIToggle))]
     public abstract class AToggleController<TToggleProperties> : MonoBehaviour, IEntityController<TToggleProperties>, IToggleController
-        where TToggleProperties : AToggleProperties
+        where TToggleProperties : IToggleProperties
     {
         #region Properties
         /// <summary>
@@ -77,7 +76,7 @@ namespace NineHundredLbs.Controly.UI
 
         #region Serialized Private Variables
         [Tooltip("Properties of this toggle controller.")]
-        [SerializeField] private TToggleProperties properties = null;
+        [SerializeField] private TToggleProperties properties;
 
         [Tooltip("Controlled toggle component.")]
         [SerializeField] private UIToggle uiToggle = null;
