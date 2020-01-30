@@ -5,11 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2020-1-29
+## [2.0.1] - 2020-1-30
 
 ### Planned
 
 - Once OdinInspector fully supports nested prefabs, a re-implementation or re-addressal of SerializedMonoBehaviour. See the [Odin roadmap]("https://odininspector.com/roadmap") for information and possible dates.
+
+### Changed
+
+- Reworked the implementation of ATabMenuController to depend on interfaces instead of dynamic compile-time type interpretation.
+- Changed AToggleController to no longer block the first OnValueChanged event.
+
+### Fixed
+
+- Attempted fix of the ControlyEditorUtils bug.
+
+## [2.0.0] - 2020-1-29
+
 
 ### Changed
 

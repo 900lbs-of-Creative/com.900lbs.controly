@@ -99,7 +99,7 @@ namespace NineHundredLbs.Controly.UI
         protected virtual void Awake()
         {
             m_previousInteractable = true;
-            m_blockOnValueChangedCallback = true;
+            //m_blockOnValueChangedCallback = true;
         }
 
         protected virtual void OnEnable()

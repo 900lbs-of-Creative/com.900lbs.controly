@@ -21,7 +21,7 @@ namespace NineHundredLbs.Controly.Editor
                 if (m_Instance == null)
                     throw new System.Exception("Unable to find ProcessorsSettings asset at " + AssetPath);
 
-                ControlyEditorUtils.SetDirty(m_Instance, true);
+                m_Instance.SetDirty(true);
                 return m_Instance;
             }
         }

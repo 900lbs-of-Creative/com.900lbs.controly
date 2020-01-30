@@ -39,7 +39,11 @@ namespace NineHundredLbs.Controly.Editor
         public static void SaveAssets()
         {
             ControlySettings.Instance.AssetDatabaseSaveAssetsNeeded = false;
-            AssetDatabase.SaveAssets();
+            try
+            {
+                //AssetDatabase.SaveAssets();
+            }
+            catch { }
         }
     }
 }

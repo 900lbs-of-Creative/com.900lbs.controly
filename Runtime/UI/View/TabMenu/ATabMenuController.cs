@@ -33,12 +33,12 @@ namespace NineHundredLbs.Controly.UI
         /// <summary>
         /// List of controlled tabs.
         /// </summary>
-        private List<dynamic> tabs = new List<dynamic>();
+        private List<IToggleController> tabs = new List<IToggleController>();
 
         /// <summary>
         /// List of controlled tab pages.
         /// </summary>
-        private List<dynamic> tabPages = new List<dynamic>();
+        private List<IViewController> tabPages = new List<IViewController>();
         #endregion
 
         #region Protected Methods
@@ -46,11 +46,11 @@ namespace NineHundredLbs.Controly.UI
         {
             base.OnPropertiesSet();
             foreach (var tabPage in tabPages)
-                Destroy(tabPage.gameObject);
+                Destroy(tabPage.UIView.gameObject);
             tabPages.Clear();
 
             foreach (var tab in tabs)
-                Destroy(tab.gameObject);
+                Destroy(tab.UIToggle.gameObject);
             tabs.Clear();
 
             foreach (var tabPageProperties in Properties.TabPageProperties)
@@ -63,34 +63,22 @@ namespace NineHundredLbs.Controly.UI
                 if (tab == null)
                     throw new System.Exception($"No supported tab implemented for the given tab properties of type {tabPageProperties.GetType()}");
 
-                IToggleController tabToggle = tab as IToggleController;
-                IViewController tabPageView = tabPage as IViewController;
-                tabToggle.Toggled += (toggle, value) =>
+                tab.Toggled += (toggle, value) =>
                 {
                     if (value)
                     {
-                        tabPageView.UIView.Show();
-                        tabPageView.UIView.transform.SetAsLastSibling();
+                        tabPage.UIView.Show();
+                        tabPage.UIView.transform.SetAsLastSibling();
                     }
                     else
                     {
-                        tabPageView.UIView.Hide();
-                        tabPageView.UIView.transform.SetAsFirstSibling();
+                        tabPage.UIView.Hide();
+                        tabPage.UIView.transform.SetAsFirstSibling();
                     }
                 };
             }
 
-            if (tabs.Count > 0)
-            {
-                StartCoroutine(IE_Initialize());
-                IEnumerator IE_Initialize()
-                {
-                    yield return new WaitForEndOfFrame();
-                    yield return new WaitForEndOfFrame();
-                    yield return new WaitForEndOfFrame();
-                    tabs[0].UIToggle.IsOn = true;
-                }
-            }
+            tabs[0].UIToggle.ToggleOn();
         }
 
         /// <summary>
@@ -98,23 +86,23 @@ namespace NineHundredLbs.Controly.UI
         /// </summary>
         /// <param name="tabPageProperties">Properties of the tab page to get.</param>
         /// <returns>A tab page object.</returns>
-        protected abstract dynamic GetTabPage(ITabPageProperties tabPageProperties);
+        protected abstract IViewController GetTabPage(ITabPageProperties tabPageProperties);
 
         /// <summary>
         /// Gets and returns a tab object based on the given <paramref name="tabProperties"/>.
         /// </summary>
         /// <param name="tabProperties">Properties of the tab to get.</param>
         /// <returns>A tab object.</returns>
-        protected abstract dynamic GetTab(ITabProperties tabProperties);
+        protected abstract IToggleController GetTab(ITabProperties tabProperties);
 
         /// <summary>
         /// Spawns and returns a tab page object from the given <paramref name="tabPagePrefab"/>.
         /// </summary>
         /// <param name="tabPagePrefab">The prefab of the tab page to spawn.</param>
         /// <returns>A instance of the <paramref name="tabPagePrefab"/>.</returns>
-        protected dynamic SpawnTabPage(dynamic tabPagePrefab)
+        protected IViewController SpawnTabPage(GameObject tabPagePrefab)
         {
-            dynamic tabPage = Instantiate(tabPagePrefab, tabPageContainer);
+            IViewController tabPage = Instantiate(tabPagePrefab, tabPageContainer).GetComponent<IViewController>();
             tabPages.Add(tabPage);
             return tabPage;
         }
@@ -124,9 +112,9 @@ namespace NineHundredLbs.Controly.UI
         /// </summary>
         /// <param name="tabPrefab">The prefab of the tab  to spawn.</param>
         /// <returns>A instance of the <paramref name="tabPrefab"/>.</returns>
-        protected dynamic SpawnTab(dynamic tabPrefab)
+        protected IToggleController SpawnTab(GameObject tabPrefab)
         {
-            dynamic tab = Instantiate(tabPrefab, tabContainer);
+            IToggleController tab = Instantiate(tabPrefab, tabContainer).GetComponent<IToggleController>();
             tab.UIToggle.Toggle.group = tabToggleGroup;
             tabs.Add(tab);
             return tab;
