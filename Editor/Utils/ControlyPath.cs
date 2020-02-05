@@ -5,7 +5,7 @@ namespace NineHundredLbs.Controly.Editor
 {
     public static class ControlyPath
     {
-        private const string PACKAGES_PATH = "Packages/";
+        private const string PACKAGES_PATH = @"Packages\";
         private const string PACKAGE_NAME = "com.900lbs.controly";
 
         private const string CONTROLY = "Controly";
