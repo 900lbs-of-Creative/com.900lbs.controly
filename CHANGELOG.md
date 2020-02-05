@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2020-2-5
+
+
+### Planned
+
+- Once OdinInspector fully supports nested prefabs, a re-implementation or re-addressal of SerializedMonoBehaviour. See the [Odin roadmap]("https://odininspector.com/roadmap") for information and possible dates.
+
+### Changed
+
+- Reworked the entire framework to no longer be a git-importable package. Instead, just download the most recent release from the [Releases]("https://github.com/900lbs-dcolina/com.900lbs.controly/releases") page, import
+the Unity Package file into Unity, and edit the Assembly Definition files as needed (see Doozy's [video on setting up assembly definitions]("https://www.youtube.com/watch?v=asoFklJ8kfk")) for reference on this.
+
 ## [2.0.2] - 2020-2-5
 
 ### Fixed
