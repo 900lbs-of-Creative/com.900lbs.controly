@@ -1,8 +1,8 @@
 {
     "name": "900lbs.Controly.UI",
     "references": [
-        "900lbs.Controly",
-        "DoozyEngineAssembly"
+        "GUID:a9f6bb48e8f7387449fb6089284b01fc",
+        "GUID:4fe06e08782480a40af9f0ec48dd68a1"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -10,6 +10,8 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "CONTROLY_UI"
+    ],
     "versionDefines": []
 }

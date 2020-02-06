@@ -166,7 +166,6 @@ namespace NineHundredLbs.Controly.UI
         /// <param name="value">Whether interactability was changed to interactable (true) or uninteractable (false).</param>
         protected virtual void HandleInteractabilityChanged(bool value) { }
 
-
         /// <summary>
         /// Handler method for frontend functionality when <see cref="UIButton"/> component's <see cref="UIButton.Interactable"/> value
         /// changes.

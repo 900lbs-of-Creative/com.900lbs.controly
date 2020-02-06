@@ -1,0 +1,16 @@
+{
+    "name": "900lbs.Controly.Editor",
+    "references": [
+        "GUID:a9f6bb48e8f7387449fb6089284b01fc"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
