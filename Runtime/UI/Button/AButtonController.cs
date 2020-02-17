@@ -45,7 +45,6 @@ namespace NineHundredLbs.Controly.UI
     /// </summary>
     /// <typeparam name="TButtonProperties">Type of properties for this controller.</typeparam>
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(UIButton))]
     public abstract class AButtonController<TButtonProperties> : MonoBehaviour , IEntityController<TButtonProperties>, IButtonController
         where TButtonProperties : IButtonProperties
     {

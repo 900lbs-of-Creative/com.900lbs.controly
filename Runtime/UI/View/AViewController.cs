@@ -54,7 +54,6 @@ namespace NineHundredLbs.Controly.UI
     /// </summary>
     /// <typeparam name="TViewProperties">Type of properties for this controller.</typeparam>
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(UIView))]
     public abstract class AViewController<TViewProperties> : MonoBehaviour, IEntityController<TViewProperties>, IViewController
         where TViewProperties : IViewProperties
     {

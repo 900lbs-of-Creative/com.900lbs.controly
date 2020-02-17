@@ -53,7 +53,6 @@ namespace NineHundredLbs.Controly.UI
     /// </summary>
     /// <typeparam name="TToggleProperties">Type of properties for this controller.</typeparam>
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(UIToggle))]
     public abstract class AToggleController<TToggleProperties> : MonoBehaviour, IEntityController<TToggleProperties>, IToggleController
         where TToggleProperties : IToggleProperties
     {

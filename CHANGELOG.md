@@ -5,12 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2020-2-17
+
+### Changed
+
+- Removed component requirements from AViewController, AToggleController, and AButtonController to allow for controlled components to exist on different objects.
+
 ## [2.1.0] - 2020-2-5
-
-
-### Planned
-
-- Once OdinInspector fully supports nested prefabs, a re-implementation or re-addressal of SerializedMonoBehaviour. See the [Odin roadmap]("https://odininspector.com/roadmap") for information and possible dates.
 
 ### Changed
 
