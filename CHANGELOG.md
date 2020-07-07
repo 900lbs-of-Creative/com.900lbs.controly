@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2020-7-7
+
+### Changed
+
+- Updated the [README.md](README.md) significantly to account for new and recent changes.
+- Changed `AToggleGroupController` and `AButtonGroupController` to delegate to subclasses to initialize instantiated toggles and buttons.
+- Changed `AToggleController`'s output `Toggled` event to `ValueChanged`.
+- Changed `AScrollerController`'s `Start` method to `protected virtual` accessibility.
+- Changed all assembly definitions to depend on names as opposed to GUIDs.
+
+### Fixed
+
+- Fixed a bug where `ATabMenuController` not correctly toggling on the first tab when spawning tabs.
+
 ## [2.1.1] - 2020-2-17
 
 ### Changed
@@ -28,19 +42,18 @@ the Unity Package file into Unity, and edit the Assembly Definition files as nee
 
 ### Planned
 
-- Once OdinInspector fully supports nested prefabs, a re-implementation or re-addressal of SerializedMonoBehaviour. See the [Odin roadmap]("https://odininspector.com/roadmap") for information and possible dates.
+- Once OdinInspector fully supports nested prefabs, a re-implementation or re-addressal of `SerializedMonoBehaviour`. See the [Odin roadmap]("https://odininspector.com/roadmap") for information and possible dates.
 
 ### Changed
 
-- Reworked the implementation of ATabMenuController to depend on interfaces instead of dynamic compile-time type interpretation.
-- Changed AToggleController to no longer block the first OnValueChanged event.
+- Reworked the implementation of `ATabMenuController` to depend on interfaces instead of dynamic compile-time type interpretation.
+- Changed `AToggleController` to no longer block the first `OnValueChanged` event.
 
 ### Fixed
 
-- Attempted fix of the ControlyEditorUtils bug.
+- Attempted fix of the `ControlyEditorUtils` bug.
 
 ## [2.0.0] - 2020-1-29
-
 
 ### Changed
 
@@ -69,14 +82,14 @@ the Unity Package file into Unity, and edit the Assembly Definition files as nee
 
 ### Changed
 
-- Updated the IEntityController interface to IEntityController<T> to force a property type to be passed in.
-- Updated the three base UI classes (AViewController, AButtonController, AToggleController) to inherit from SerializedMonoBehaviour and instead implement the new IEntityController<T> interface for their unique properties.
-- Updated ACellViewController to implement the new IEntityController<T> interface.
+- Updated the `IEntityController` interface to `IEntityController<TEntityProperties>` to force a property type to be passed in.
+- Updated the three base UI classes (`AViewController`, `AButtonController`, `AToggleController`) to inherit from `SerializedMonoBehaviour` and instead implement the new `IEntityController<TEntityProperties>` interface for their unique properties.
+- Updated ACellViewController to implement the new `IEntityController<TEntityProperties>` interface.
 - Added a few comments and fixed a few typos and misnomers.
 
 ### Removed
 
-- Removed ATabMenuController, ATabPageController, and ATabController. Plan to reimplement at some point in the future.
+- Removed `ATabMenuController`, `ATabPageController`, and `ATabController`. Plan to reimplement at some point in the future.
 
 ## [1.0.1] - 2019-12-5
 

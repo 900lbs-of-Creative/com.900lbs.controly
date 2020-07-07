@@ -33,7 +33,7 @@ namespace NineHundredLbs.Controly.UI.Scroller
         #endregion
 
         #region Unity Methods
-        private void Start()
+        protected virtual void Start()
         {
             scroller.Delegate = this;
         }

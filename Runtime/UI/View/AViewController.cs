@@ -91,10 +91,10 @@ namespace NineHundredLbs.Controly.UI
 
         #region Serialized Private Variables
         [Tooltip("Properties of this view controller")]
-        [SerializeField] private TViewProperties properties;
+        [SerializeField] private TViewProperties properties = default;
 
         [Tooltip("Controlled UIView component.")]
-        [SerializeField] private UIView uiView = null;
+        [SerializeField] private UIView uiView = default;
         #endregion
 
         #region Unity Methods

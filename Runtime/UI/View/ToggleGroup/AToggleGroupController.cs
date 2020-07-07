@@ -44,13 +44,13 @@ namespace NineHundredLbs.Controly.UI
 
         #region Serialized Private Variables
         [Tooltip("Container where toggles are held and populated.")]
-        [SerializeField] private RectTransform toggleContainer = null;
+        [SerializeField] private RectTransform toggleContainer = default;
 
         [Tooltip("Controlled ToggleGroup component.")]
-        [SerializeField] private ToggleGroup toggleGroup = null;
+        [SerializeField] private ToggleGroup toggleGroup = default;
 
         [Tooltip("Prefab of controlled toggle.")]
-        [SerializeField] private GameObject togglePrefab = null;
+        [SerializeField] private TToggleController togglePrefab = default;
 
         [Tooltip("Controlled toggles.")]
         [SerializeField] private List<TToggleController> toggles = new List<TToggleController>();
@@ -59,8 +59,8 @@ namespace NineHundredLbs.Controly.UI
         #region Unity Methods
         protected virtual void Awake()
         {
-            foreach (TToggleController toggle in Toggles)
-                toggle.Toggled += (x, y) => Toggle_Toggled(toggle, y);
+            foreach (var toggle in Toggles)
+                toggle.ValueChanged += (x, y) => Toggle_ValueChanged(toggle, y);
         }
         #endregion
 
@@ -68,46 +68,34 @@ namespace NineHundredLbs.Controly.UI
         protected override void OnPropertiesSet()
         {
             base.OnPropertiesSet();
-            if (toggles.Count != 0)
-                ClearToggles();
-            PopulateToggles();
-        }
+            foreach (var toggle in toggles)
+                Destroy(toggle.UIToggle.gameObject);
+            toggles.Clear();
 
-        /// <summary>
-        /// Handler method for populating controlled toggles.
-        /// </summary>
-        protected virtual void PopulateToggles()
-        {
-            foreach (TToggleProperties toggleProperties in Properties.GetToggleProperties())
+            foreach (var toggleProperties in Properties.GetToggleProperties())
             {
-                TToggleController toggle = Instantiate(togglePrefab).GetComponent<TToggleController>();
+                var toggle = Instantiate(togglePrefab.UIToggle.gameObject, toggleContainer).GetComponent<TToggleController>();
                 toggle.UIToggle.transform.SetParent(toggleContainer, false);
                 toggle.UIToggle.Toggle.group = toggleGroup;
-                toggle.Toggled += (x, y) => Toggle_Toggled(toggle, y);
+                toggle.ValueChanged += (x, value) => Toggle_ValueChanged(toggle, value);
                 toggle.SetProperties(toggleProperties);
+                InitializeToggle(toggle);
                 toggles.Add(toggle);
             }
         }
 
         /// <summary>
-        /// Handler method for clearing controlled toggles.
+        /// Initializes the given <paramref name="toggle"/>.
         /// </summary>
-        protected virtual void ClearToggles()
-        {
-            foreach (TToggleController toggle in toggles)
-            {
-                toggle.Toggled -= (x, y) => Toggle_Toggled(toggle, y);
-                Destroy(toggle.UIToggle.gameObject);
-            }
-            toggles.Clear();
-        }
+        /// <param name="toggle">The toggle to initialize.</param>
+        protected abstract void InitializeToggle(TToggleController toggle);
 
         /// <summary>
         /// Handler method for when a controlled toggle's value is changed.
         /// </summary>
-        /// <param name="toggle">The toggled toggle.</param>
-        /// <param name="value">The value toggled to.</param>
-        protected abstract void Toggle_Toggled(TToggleController toggle, bool value);
+        /// <param name="toggle">The toggle whose value was changed.</param>
+        /// <param name="value">The value changed to.</param>
+        protected abstract void Toggle_ValueChanged(TToggleController toggle, bool value);
         #endregion
     }
 }

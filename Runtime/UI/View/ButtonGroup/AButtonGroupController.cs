@@ -7,8 +7,7 @@ namespace NineHundredLbs.Controly.UI
     /// Interface for properties of controllers of button group objects.
     /// </summary>
     /// <typeparam name="TButtonProperties">Type of properties for buttons controlled by the button group holding these properties.</typeparam>
-    public interface IButtonGroupProperties<TButtonProperties> : IViewProperties
-        where TButtonProperties : IButtonProperties
+    public interface IButtonGroupProperties<TButtonProperties> : IViewProperties where TButtonProperties : IButtonProperties
     {
         /// <summary>
         /// Gets and returns a list of properties for buttons controlled
@@ -39,10 +38,10 @@ namespace NineHundredLbs.Controly.UI
 
         #region Serialized Private Variables
         [Tooltip("Container where buttons are are held and populated.")]
-        [SerializeField] private RectTransform buttonContainer = null;
+        [SerializeField] private RectTransform buttonContainer = default;
 
         [Tooltip("Prefab of controlled button.")]
-        [SerializeField] private GameObject buttonPrefab = null;
+        [SerializeField] private TButtonController buttonPrefab = default;
 
         [Tooltip("Controlled buttons.")]
         [SerializeField] private List<TButtonController> buttons = new List<TButtonController>();
@@ -60,38 +59,27 @@ namespace NineHundredLbs.Controly.UI
         protected override void OnPropertiesSet()
         {
             base.OnPropertiesSet();
-            if (buttons.Count != 0)
-                ClearButtons();
-            PopulateButtons();
-        }
+            foreach (var button in buttons)
+                Destroy(button.UIButton.gameObject);
+            buttons.Clear();
 
-        /// <summary>
-        /// Handler method for populating controlled buttons.
-        /// </summary>
-        protected virtual void PopulateButtons()
-        {
-            foreach (TButtonProperties buttonProperties in Properties.GetButtonProperties())
+            foreach (var buttonProperties in Properties.GetButtonProperties())
             {
-                TButtonController button = Instantiate(buttonPrefab).GetComponent<TButtonController>();
+                var button = Instantiate(buttonPrefab.UIButton.gameObject, buttonContainer).GetComponent<TButtonController>();
                 button.UIButton.transform.SetParent(buttonContainer, false);
                 button.Clicked += (x) => Button_Clicked(button);
                 button.SetProperties(buttonProperties);
-                buttons.Add(button);
+                InitializeButton(button);
+                buttons.Add(button); 
             }
         }
 
         /// <summary>
-        /// Handler method for clearing controlled buttons.
+        /// Gets and returns a button based on the given <paramref name="button"/>.
         /// </summary>
-        protected virtual void ClearButtons()
-        {
-            foreach (TButtonController button in buttons)
-            {
-                button.Clicked -= (x) => Button_Clicked(button);
-                Destroy(button.UIButton.gameObject);
-            }
-            buttons.Clear();
-        }
+        /// <param name="button">Properties of the button to get.</param>
+        /// <returns>A button object.</returns>
+        protected abstract void InitializeButton(TButtonController button);
 
         /// <summary>
         /// Handler method for when a controlled button is clicked.

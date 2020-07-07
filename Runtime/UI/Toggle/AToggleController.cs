@@ -25,7 +25,7 @@ namespace NineHundredLbs.Controly.UI
         /// <summary>
         /// Invoked when <see cref="UIToggle"/> component's <see cref="UIToggle.OnValueChanged"/> occurs.
         /// </summary>
-        Action<IToggleController, bool> Toggled { get; set; }
+        Action<IToggleController, bool> ValueChanged { get; set; }
 
         /// <summary>
         /// Toggles the value of <see cref="UIToggle"/> component's <see cref="UIToggle.IsOn"/> to the given
@@ -70,15 +70,15 @@ namespace NineHundredLbs.Controly.UI
         /// <summary>
         /// Invoked when <see cref="UIToggle"/> component's <see cref="UIToggle.OnValueChanged"/> occurs.
         /// </summary>
-        public Action<IToggleController, bool> Toggled { get; set; }
+        public Action<IToggleController, bool> ValueChanged { get; set; }
         #endregion
 
         #region Serialized Private Variables
         [Tooltip("Properties of this toggle controller.")]
-        [SerializeField] private TToggleProperties properties;
+        [SerializeField] private TToggleProperties properties = default;
 
         [Tooltip("Controlled toggle component.")]
-        [SerializeField] private UIToggle uiToggle = null;
+        [SerializeField] private UIToggle uiToggle = default;
         #endregion
 
         #region Private Variables
@@ -198,7 +198,7 @@ namespace NineHundredLbs.Controly.UI
         /// <param name="value">Whether toggle value was changed to on (true) or off (false).</param>
         protected virtual void HandleValueChanged(bool value)
         {
-            Toggled?.Invoke(this, value);
+            ValueChanged?.Invoke(this, value);
         }
 
         /// <summary>

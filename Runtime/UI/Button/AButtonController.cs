@@ -67,10 +67,10 @@ namespace NineHundredLbs.Controly.UI
 
         #region Serialized Private Variables
         [Tooltip("Properties of this button controller")]
-        [SerializeField] private TButtonProperties properties;
+        [SerializeField] private TButtonProperties properties = default;
 
         [Tooltip("Controlled UIButton component.")]
-        [SerializeField] private UIButton uiButton = null;
+        [SerializeField] private UIButton uiButton = default;
         #endregion
 
         #region Private Variables

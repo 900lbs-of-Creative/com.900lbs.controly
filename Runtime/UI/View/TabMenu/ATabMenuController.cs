@@ -63,7 +63,7 @@ namespace NineHundredLbs.Controly.UI
                 if (tab == null)
                     throw new System.Exception($"No supported tab implemented for the given tab properties of type {tabPageProperties.GetType()}");
 
-                tab.Toggled += (toggle, value) =>
+                tab.ValueChanged += (toggle, value) =>
                 {
                     if (value)
                     {
@@ -77,8 +77,12 @@ namespace NineHundredLbs.Controly.UI
                     }
                 };
             }
-
-            tabs[0].UIToggle.ToggleOn();
+            StartCoroutine(IE_ToggleFirstToggle());
+            IEnumerator IE_ToggleFirstToggle()
+            {
+                yield return null;
+                tabs[0].UIToggle.ToggleOn();
+            }
         }
 
         /// <summary>
@@ -99,10 +103,11 @@ namespace NineHundredLbs.Controly.UI
         /// Spawns and returns a tab page object from the given <paramref name="tabPagePrefab"/>.
         /// </summary>
         /// <param name="tabPagePrefab">The prefab of the tab page to spawn.</param>
-        /// <returns>A instance of the <paramref name="tabPagePrefab"/>.</returns>
-        protected IViewController SpawnTabPage(GameObject tabPagePrefab)
+        /// <returns>An instance of the <paramref name="tabPagePrefab"/>.</returns>
+        protected IViewController SpawnTabPage(IViewController tabPagePrefab)
         {
-            IViewController tabPage = Instantiate(tabPagePrefab, tabPageContainer).GetComponent<IViewController>();
+            IViewController tabPage = Instantiate(tabPagePrefab.UIView.gameObject, tabPageContainer).GetComponent<IViewController>();
+            tabPage.UIView.transform.SetParent(tabPageContainer, false);
             tabPages.Add(tabPage);
             return tabPage;
         }
@@ -111,10 +116,11 @@ namespace NineHundredLbs.Controly.UI
         /// Spawns and returns a tab object from the given <paramref name="tabPrefab"/>.
         /// </summary>
         /// <param name="tabPrefab">The prefab of the tab  to spawn.</param>
-        /// <returns>A instance of the <paramref name="tabPrefab"/>.</returns>
-        protected IToggleController SpawnTab(GameObject tabPrefab)
+        /// <returns>An instance of the <paramref name="tabPrefab"/>.</returns>
+        protected IToggleController SpawnTab(IToggleController tabPrefab)
         {
-            IToggleController tab = Instantiate(tabPrefab, tabContainer).GetComponent<IToggleController>();
+            IToggleController tab = Instantiate(tabPrefab.UIToggle.gameObject, tabContainer).GetComponent<IToggleController>();
+            tab.UIToggle.transform.SetParent(tabContainer, false);
             tab.UIToggle.Toggle.group = tabToggleGroup;
             tabs.Add(tab);
             return tab;

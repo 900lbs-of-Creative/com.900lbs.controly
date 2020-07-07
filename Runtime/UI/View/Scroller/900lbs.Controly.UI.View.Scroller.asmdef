@@ -1,9 +1,9 @@
 {
     "name": "900lbs.Controly.UI.View.Scroller",
     "references": [
-        "GUID:a9f6bb48e8f7387449fb6089284b01fc",
-        "GUID:2080822a2d7a61542b710e94ff28792d",
-        "GUID:0682e9356e4fdf942a8f741e3e3dcfa9"
+        "900lbs.Controly",
+        "900lbs.Controly.UI",
+        "EnhancedScroller"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -14,5 +14,6 @@
     "defineConstraints": [
         "CONTROLY_UI_SCROLLER"
     ],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }
