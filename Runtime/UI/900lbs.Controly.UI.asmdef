@@ -11,7 +11,7 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "CONTROLY_UI"
+        "dUI_MANAGER"
     ],
     "versionDefines": [],
     "noEngineReferences": false

@@ -1,0 +1,19 @@
+{
+  "name": "com.900lbs.controly",
+  "version": "3.0.0",
+  "displayName": "Controly",
+  "description": "A collection of interfaces and classes to handle data-driven system in Unity.",
+  "unity": "2019.3",
+  "author": {
+    "name": "Daniel Colina",
+    "email": "dcolina@900lbs.com"
+  },
+  "samples": [
+    {
+      "displayName": "Core Samples",
+      "description": "Example scenes of Controly's UI capabilities in action.",
+      "path": "Samples~/Core Samples"
+    }
+  ],
+  "hideInEditor": false
+}
