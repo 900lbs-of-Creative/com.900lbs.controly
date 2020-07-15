@@ -30,11 +30,3 @@ A collection of interfaces and classes to handle data-driven systems in Unity.
 1. Browse through the different scenes to see the framework in action!
 
 1. If you want to dive deeper, [check out the wiki](https://github.com/dcolina900lbs/com.900lbs.controly/wiki) for breakdowns of the different interfaces and classes.
-
-## Controly in Action
-
-![View Controllers](Images~/ViewControllers.gif)
-![Button and Button Group Controllers](Images~/ButtonandButtonGroupControllers.gif)
-![Toggle and Toggle Group Controllers](Images~/ToggleandToggleGroupControllers.gif)
-![Tab Menu Controllers](Images~/TabMenuControllers.gif)
-![Scroller Controllers](Images~/ScrollerControllers.gif)
