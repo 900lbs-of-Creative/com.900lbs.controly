@@ -11,9 +11,12 @@ namespace NineHundredLbs.Controly.UI.Scroller
     /// </summary>
     public interface IScrollerProperties
     {
-        SmallList<ICellViewProperties> ScrollerData { get; }
+        SmallList<ICellViewProperties> CellViewProperties { get; }
     }
 
+    /// <summary>
+    /// Interface for controllers of <see cref="EnhancedScroller"/> objects.
+    /// </summary>
     public interface IScrollerController : IEnhancedScrollerDelegate
     {
         EnhancedScroller Scroller { get; }
@@ -36,7 +39,7 @@ namespace NineHundredLbs.Controly.UI.Scroller
 
         #region Serialized Private Variables
         [Tooltip("Controlled EnhancedScroller component.")]
-        [SerializeField] private EnhancedScroller scroller = null;
+        [SerializeField] private EnhancedScroller scroller = default;
         #endregion
 
         #region Unity Methods
@@ -49,7 +52,7 @@ namespace NineHundredLbs.Controly.UI.Scroller
         #region Public Methods
         /// <summary>
         /// Gets and returns the number of <see cref="EnhancedScrollerCellView"/> objects to be populated.
-        /// By default returns the count of the <see cref="IScrollerProperties.ScrollerData"/>
+        /// By default returns the count of the <see cref="IScrollerProperties.CellViewProperties"/>
         /// </summary>
         /// <param name="scroller">Scroller requesting the cell view count.</param>
         /// <returns>Number of cell views.</returns>
@@ -57,8 +60,8 @@ namespace NineHundredLbs.Controly.UI.Scroller
         {
             if (Properties != null)
             {
-                if (Properties.ScrollerData != null)
-                    return Properties.ScrollerData.Count;
+                if (Properties.CellViewProperties != null)
+                    return Properties.CellViewProperties.Count;
                 else
                     return 0;
             }
@@ -70,14 +73,14 @@ namespace NineHundredLbs.Controly.UI.Scroller
         /// Gets and returns the size of the cell view at the given <paramref name="dataIndex"/>.
         /// By default delegates to the <see cref="ICellViewProperties"/> object's 
         /// <see cref="ICellViewProperties.GetCellViewSize"/> method at the 
-        /// <paramref name="dataIndex"/> in stored <see cref="IScrollerProperties.ScrollerData"/>.
+        /// <paramref name="dataIndex"/> in stored <see cref="IScrollerProperties.CellViewProperties"/>.
         /// </summary>
         /// <param name="scroller">The scroller requesting the cell view size.</param>
         /// <param name="dataIndex">The index that data is being requested for.</param>
         /// <returns>Horizontal or vertical size of a cell view, based on the scroll direction of the <paramref name="scroller"/>.</returns>
         public virtual float GetCellViewSize(EnhancedScroller scroller, int dataIndex)
         {
-            return Properties.ScrollerData[dataIndex].GetCellViewSize();
+            return Properties.CellViewProperties[dataIndex].GetCellViewSize();
         }
 
         /// <summary>

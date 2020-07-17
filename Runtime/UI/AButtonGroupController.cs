@@ -39,7 +39,6 @@ namespace NineHundredLbs.Controly.UI
         /// Controlled button components.
         /// </summary>
         public List<TButtonController> Buttons { get; } = new List<TButtonController>();
-
         #endregion
 
         #region Serialized Private Variables

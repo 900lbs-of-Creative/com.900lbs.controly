@@ -24,9 +24,9 @@ namespace NineHundredLbs.Controly.UI
         where TTabMenuProperties : ITabMenuProperties
     {
         #region Serialized Private Variables
-        [SerializeField] private RectTransform tabContainer = null;
-        [SerializeField] private ToggleGroup tabToggleGroup = null;
-        [SerializeField] private RectTransform tabPageContainer = null;
+        [SerializeField] private RectTransform tabContainer = default;
+        [SerializeField] private ToggleGroup tabToggleGroup = default;
+        [SerializeField] private RectTransform tabPageContainer = default;
         #endregion
 
         #region Private Variables

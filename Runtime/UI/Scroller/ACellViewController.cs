@@ -33,7 +33,7 @@ namespace NineHundredLbs.Controly.UI.Scroller
 
         #region Serialized Private Variables
         [Tooltip("Properties of this cell view")]
-        [SerializeField] private TCellViewProperties properties;
+        [SerializeField] private TCellViewProperties properties = default;
         #endregion
 
         #region Unity Methods

@@ -11,14 +11,14 @@ namespace NineHundredLbs.Controly.UI.Scroller.Examples
     {
         public List<int> values;
 
-        public SmallList<ICellViewProperties> ScrollerData { get; } = new SmallList<ICellViewProperties>();
+        public SmallList<ICellViewProperties> CellViewProperties { get; } = new SmallList<ICellViewProperties>();
         
         public ExampleScrollerProperties(List<int> values)
         {
             this.values = values;
-            ScrollerData = new SmallList<ICellViewProperties>();
+            CellViewProperties = new SmallList<ICellViewProperties>();
             foreach (var value in values)
-                ScrollerData.Add(new ExampleCellViewProperties(value));
+                CellViewProperties.Add(new ExampleCellViewProperties(value));
         }
     }
 
@@ -38,7 +38,7 @@ namespace NineHundredLbs.Controly.UI.Scroller.Examples
 
         public override EnhancedScrollerCellView GetCellView(EnhancedScroller scroller, int dataIndex, int cellIndex)
         {
-            if (Properties.ScrollerData[dataIndex] is ExampleCellViewProperties exampleCellViewProperties)
+            if (Properties.CellViewProperties[dataIndex] is ExampleCellViewProperties exampleCellViewProperties)
             {
                 ExampleCellViewController exampleCellView = scroller.GetCellView(exampleCellViewPrefab) as ExampleCellViewController;
                 exampleCellView.SetProperties(exampleCellViewProperties);
