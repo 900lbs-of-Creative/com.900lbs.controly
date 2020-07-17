@@ -4,16 +4,14 @@ on:
     branches:
     - master
 jobs:
-  split-upm:
-    name: split upm branch
+  hide samples:
+    name: hide samples
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: split upm branch
-      run: |
-        git subtree split -P "$PKG_ROOT" -b upm
-        git push -u origin upm
-      env:
-        PKG_ROOT: Packages/package-name
+    run: |
+    if [[ -d "Samples" ]]; then
+        git mv Samples Samples~
+        rm -f Samples.meta
+        git config --global user.name 'github-bot'
+        git config --global user.email 'github-bot@users.noreply.github.com'
+        git commit -am "fix: Samples => Samples~"
+    fi
