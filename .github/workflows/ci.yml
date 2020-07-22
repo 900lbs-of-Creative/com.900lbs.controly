@@ -19,17 +19,10 @@ jobs:
         git log -1
 
         echo '### delete local upm branch'
-        git branch -d upm &> /dev/null || echo local upm branch not found
-        echo
-
-        # echo '### split upm branch'
-        # git subtree split -P "$PKG_ROOT" -b upm
-
+        git branch -d upm &> /dev/null || echo upm branch not found
+        
         echo '### checkout upm branch'
-        git checkout upm
-
-        echo '### list files'
-        ls -l
+        git checkout -b upm
 
         if [[ -d "Samples" ]]; then
           echo '### move Samples => Samples~'
@@ -39,6 +32,6 @@ jobs:
           git config --global user.email 'github-bot@users.noreply.github.com'
           git commit -am "fix: Samples => Samples~"
         fi
-
+        
         echo '### force overwrite remote upm branch'
         git push -f -u origin upm

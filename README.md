@@ -9,14 +9,10 @@ A collection of interfaces and classes to handle data-driven systems in Unity.
     * [Create an assembly definitions for DoozyUI](https://www.youtube.com/watch?v=asoFklJ8kfk) named `Doozy.Engine.asmdef` and `Doozy.Editor.asmdef`, respectively.
 1. Get the latest version of [EnhancedScroller](https://assetstore.unity.com/packages/tools/gui/enhancedscroller-36378) and import it into your Unity project.
     * Create up an assembly definition for EnhancedScroller named `EnhancedScroller.asmdef` inside of `EnhancedScroller v2/Plugins`
-1. Open the `manifest.json` file in the `Packages` folder of your project and edit the `"dependencies"` section to look like this:
+1. Open the `manifest.json` file in the `Packages` folder of your project and add the following to the `"dependencies"` section:
 
     ```json
-    {
-        "dependencies": {
-            "com.900lbs.controly": "https://github.com/dcolina900lbs/Controly.git",
-        },
-    }
+   "com.900lbs.controly": "https://github.com/dcolina900lbs/com.900lbs.controly.git#upm"
     ```
 
 ## Getting Started

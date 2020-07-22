@@ -8,6 +8,13 @@
     "name": "Daniel Colina",
     "email": "dcolina@900lbs.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dcolina900lbs/com.900lbs.controly.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "samples": [
     {
       "displayName": "Core Samples",
