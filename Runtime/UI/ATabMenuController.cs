@@ -77,7 +77,10 @@ namespace NineHundredLbs.Controly.UI
                     }
                 };
             }
-            StartCoroutine(IE_ToggleFirstToggle());
+
+            if (tabs.Count > 0)
+                StartCoroutine(IE_ToggleFirstToggle());
+
             IEnumerator IE_ToggleFirstToggle()
             {
                 yield return null;

@@ -44,7 +44,7 @@ namespace NineHundredLbs.Controly.UI
         /// <summary>
         /// Controlled toggle components.
         /// </summary>
-        public List<TToggleController> Toggles { get; } = new List<TToggleController>();
+        public List<TToggleController> Toggles => toggles;
         #endregion
 
         #region Serialized Private Variables
@@ -56,6 +56,17 @@ namespace NineHundredLbs.Controly.UI
 
         [Tooltip("Prefab of controlled toggle.")]
         [SerializeField] private TToggleController togglePrefab = default;
+
+        [Tooltip("Controlled toggles.")]
+        [SerializeField] private List<TToggleController> toggles = default;
+        #endregion
+
+        #region Unity Methods
+        protected virtual void Awake()
+        {
+            foreach (var toggle in Toggles)
+                toggle.ValueChanged += (x, value) => Toggle_ValueChanged(toggle, value);
+        }
         #endregion
 
         #region Protected Methods

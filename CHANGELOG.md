@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [3.0.1] - 2020-8-4
+
+### Added
+
+- Exposed controlled buttons in `AButtonController<T, U, V>` in the inspector to allow for editor-time initialization of button groups.
+- Exposed controlled toggles in `AToggleController<T, U, V>` in the inspector to allow for editor-time initialization of toggle groups.
+- Non-generic `AToggleController`, `AButtonController`, and `AViewController` abstract types to support simple controllers without properties.
+
+### Fixed
+
+- Fixed `ATabMenuController<T>` to not throw an `OutOfRangeException` when no tabs were spawned.
+
 ## [3.0.0] - 2020-7-14
 
 ### Added
