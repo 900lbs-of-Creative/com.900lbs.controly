@@ -38,7 +38,7 @@ namespace NineHundredLbs.Controly.UI
         /// <summary>
         /// Controlled button components.
         /// </summary>
-        public List<TButtonController> Buttons { get; } = new List<TButtonController>();
+        public List<TButtonController> Buttons => buttons;
         #endregion
 
         #region Serialized Private Variables
@@ -47,6 +47,17 @@ namespace NineHundredLbs.Controly.UI
 
         [Tooltip("Prefab of controlled button.")]
         [SerializeField] private TButtonController buttonPrefab = default;
+
+        [Tooltip("Controlled buttons.")]
+        [SerializeField] private List<TButtonController> buttons = default;
+        #endregion
+
+        #region Unity Methods
+        protected virtual void Awake()
+        {
+            foreach (var button in Buttons)
+                button.Clicked += (x) => Button_Clicked(button);
+        }
         #endregion
 
         #region Protected Methods
