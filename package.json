@@ -1,6 +1,6 @@
 {
   "name": "com.900lbs.controly",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "displayName": "Controly",
   "description": "A collection of interfaces and classes to handle data-driven system in Unity.",
   "unity": "2019.3",
@@ -11,9 +11,6 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/dcolina900lbs/com.900lbs.controly.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   },
   "samples": [
     {

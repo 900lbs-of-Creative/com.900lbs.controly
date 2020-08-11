@@ -35,6 +35,12 @@ namespace NineHundredLbs.Controly.UI
         /// Invoked when <see cref="UIView"/> component's <see cref="UIView.HideBehavior"/> finishes.
         /// </summary>
         Action<IViewController> HideFinished { get; set; }
+
+        /// <summary>
+        /// Toggles the interactability of <see cref="UIView"/> to the given <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">Whether to toggle to interactable (true) or uninteractable (false).</param>
+        void ToggleInteractability(bool value);
     }
     #endregion
 
@@ -87,6 +93,10 @@ namespace NineHundredLbs.Controly.UI
         {
             RemoveListeners();
         }
+        #endregion
+
+        #region Public Methods
+        public virtual void ToggleInteractability(bool value) { }
         #endregion
 
         #region Protected Methods
@@ -183,6 +193,10 @@ namespace NineHundredLbs.Controly.UI
         #region Serialized Private Variables
         [Tooltip("Controlled UIView component.")]
         [SerializeField] private UIView uiView = default;
+        #endregion
+
+        #region Public Methods
+        public virtual void ToggleInteractability(bool value) { }
         #endregion
 
         #region Protected Methods

@@ -60,6 +60,18 @@ namespace NineHundredLbs.Controly.UI
         }
         #endregion
 
+        #region Public Methods
+        /// <summary>
+        /// Toggles the interactability of controlled <see cref="Buttons"/> to the given <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">Whether to toggle to interactable (true) or uninteractable (false).</param>
+        public void ToggleInteractability(bool value)
+        {
+            foreach (var button in Buttons)
+                button.ToggleInteractability(value);
+        }
+        #endregion
+
         #region Protected Methods
         protected override void OnPropertiesSet()
         {
