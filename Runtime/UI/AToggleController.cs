@@ -246,11 +246,6 @@ namespace NineHundredLbs.Controly.UI
         /// and subsequently send callbacks through <see cref="OnInteractabilityChanged(bool)"/>.
         /// </summary>
         private bool m_previousInteractable = true;
-
-        /// <summary>
-        /// Used to prevent backend functionality callbacks.
-        /// </summary>
-        private bool m_blockOnValueChangedCallback = false;
         #endregion
 
         #region Unity Methods
@@ -280,20 +275,22 @@ namespace NineHundredLbs.Controly.UI
             StartCoroutine(IE_ToggleInternal());
             IEnumerator IE_ToggleInternal()
             {
+                UIToggle.OnValueChanged.RemoveListener(HandleValueChanged);
                 if (value)
                 {
-                    m_blockOnValueChangedCallback = true;
                     UIToggle.ToggleOff();
                     yield return new WaitForEndOfFrame();
                     yield return new WaitForEndOfFrame();
-                    m_blockOnValueChangedCallback = true;
                     UIToggle.ToggleOn();
+                    yield return new WaitForEndOfFrame();
+                    yield return new WaitForEndOfFrame();
                 }
                 else
                 {
-                    m_blockOnValueChangedCallback = true;
                     UIToggle.ToggleOff();
+                    yield return new WaitForEndOfFrame();
                 }
+                UIToggle.OnValueChanged.AddListener(HandleValueChanged);
             }
         }
 
@@ -311,13 +308,15 @@ namespace NineHundredLbs.Controly.UI
         protected override void AddListeners()
         {
             base.AddListeners();
-            UIToggle.OnValueChanged.AddListener(OnValueChanged);
+            UIToggle.OnValueChanged.AddListener(HandleValueChanged);
+            UIToggle.OnValueChanged.AddListener(AnimateValueChanged);
         }
 
         protected override void RemoveListeners()
         {
             base.RemoveListeners();
-            UIToggle.OnValueChanged.RemoveListener(OnValueChanged);
+            UIToggle.OnValueChanged.RemoveListener(HandleValueChanged);
+            UIToggle.OnValueChanged.RemoveListener(AnimateValueChanged);
         }
 
         /// <summary>
@@ -351,22 +350,6 @@ namespace NineHundredLbs.Controly.UI
         #endregion
 
         #region Private Methods
-        /// <summary>
-        /// Handler method for when the <see cref="uiToggle"/> component's <see cref="UIToggle.OnValueChanged"/> occurs.
-        /// Delegates functionality for backend behaviour to <see cref="HandleValueChanged(bool)"/> in the case that callbacks
-        /// are not being blocked by <see cref="m_blockOnValueChangedCallback"/>, and frontend behaviour to <see cref="AnimateValueChanged(bool)"/>.
-        /// </summary>
-        /// <param name="value">Whether toggle value was changed to on (true) or off (false).</param>
-        private void OnValueChanged(bool value)
-        {
-            if (m_blockOnValueChangedCallback)
-                m_blockOnValueChangedCallback = false;
-            else
-                HandleValueChanged(value);
-
-            AnimateValueChanged(value);
-        }
-
         /// <summary>
         /// Handler method for when <see cref="UIToggle"/> component's <see cref="UIToggle.Interactable"/> value
         /// changes. Delegates functionality for backend and frontend behaviour to <see cref="HandleInteractabilityChanged(bool)"/>

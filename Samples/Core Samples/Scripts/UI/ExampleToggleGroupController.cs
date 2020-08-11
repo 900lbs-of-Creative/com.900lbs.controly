@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 using TMPro;
@@ -39,7 +39,6 @@ namespace NineHundredLbs.Controly.UI.Examples
             SetProperties(new ExampleToggleGroupProperties(values));
         }
 
-
         protected override void InitializeToggle(ExampleToggleController toggle)
         {
             toggle.name = $"[ExampleToggle] {toggle.Properties.value}";
@@ -47,7 +46,15 @@ namespace NineHundredLbs.Controly.UI.Examples
 
         protected override void Toggle_ValueChanged(ExampleToggleController toggle, bool value)
         {
-            label.text = $"Toggle #{toggle.Properties.value} was changed to {value}!";
+            if (value)
+            {
+                label.text = $"Toggle #{toggle.Properties.value} was changed to {value}!";
+            }
+            else
+            {
+                if (!ToggleGroup.AnyTogglesOn())
+                    label.text = $"All toggles are off";
+            }
         }
     }
 }

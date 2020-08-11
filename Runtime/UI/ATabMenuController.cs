@@ -23,35 +23,35 @@ namespace NineHundredLbs.Controly.UI
     public abstract class ATabMenuController<TTabMenuProperties> : AEntityController<TTabMenuProperties>
         where TTabMenuProperties : ITabMenuProperties
     {
+        #region Properties
+        /// <summary>
+        /// List of controlled tabs.
+        /// </summary>
+        public List<IToggleController> Tabs { get; } = new List<IToggleController>();
+
+        /// <summary>
+        /// List of controlled tab pages.
+        /// </summary>
+        public List<IViewController> TabPages { get; } = new List<IViewController>();
+        #endregion
+
         #region Serialized Private Variables
         [SerializeField] private RectTransform tabContainer = default;
         [SerializeField] private ToggleGroup tabToggleGroup = default;
         [SerializeField] private RectTransform tabPageContainer = default;
         #endregion
 
-        #region Private Variables
-        /// <summary>
-        /// List of controlled tabs.
-        /// </summary>
-        private List<IToggleController> tabs = new List<IToggleController>();
-
-        /// <summary>
-        /// List of controlled tab pages.
-        /// </summary>
-        private List<IViewController> tabPages = new List<IViewController>();
-        #endregion
-
         #region Protected Methods
         protected override void OnPropertiesSet()
         {
             base.OnPropertiesSet();
-            foreach (var tabPage in tabPages)
+            foreach (var tabPage in TabPages)
                 Destroy(tabPage.UIView.gameObject);
-            tabPages.Clear();
+            TabPages.Clear();
 
-            foreach (var tab in tabs)
+            foreach (var tab in Tabs)
                 Destroy(tab.UIToggle.gameObject);
-            tabs.Clear();
+            Tabs.Clear();
 
             foreach (var tabPageProperties in Properties.TabPageProperties)
             {
@@ -78,13 +78,13 @@ namespace NineHundredLbs.Controly.UI
                 };
             }
 
-            if (tabs.Count > 0)
+            if (Tabs.Count > 0)
                 StartCoroutine(IE_ToggleFirstToggle());
 
             IEnumerator IE_ToggleFirstToggle()
             {
                 yield return null;
-                tabs[0].UIToggle.ToggleOn();
+                Tabs[0].UIToggle.ToggleOn();
             }
         }
 
@@ -111,7 +111,7 @@ namespace NineHundredLbs.Controly.UI
         {
             IViewController tabPage = Instantiate(tabPagePrefab.UIView.gameObject, tabPageContainer).GetComponent<IViewController>();
             tabPage.UIView.transform.SetParent(tabPageContainer, false);
-            tabPages.Add(tabPage);
+            TabPages.Add(tabPage);
             return tabPage;
         }
 
@@ -125,7 +125,7 @@ namespace NineHundredLbs.Controly.UI
             IToggleController tab = Instantiate(tabPrefab.UIToggle.gameObject, tabContainer).GetComponent<IToggleController>();
             tab.UIToggle.transform.SetParent(tabContainer, false);
             tab.UIToggle.Toggle.group = tabToggleGroup;
-            tabs.Add(tab);
+            Tabs.Add(tab);
             return tab;
         }
         #endregion

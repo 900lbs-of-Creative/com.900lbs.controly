@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [3.0.2] - 2020-8-11
+
+### Changed
+
+- Made controlled tab pages and tabs `public` in `ATabMenuController<T>`.
+
+### Fixed
+
+- Fixed `ToggleInternal(bool value)` on toggle controllers to no longer occasionally block value changed callbacks randomly.
+
 ## [3.0.1] - 2020-8-4
 
 ### Added
