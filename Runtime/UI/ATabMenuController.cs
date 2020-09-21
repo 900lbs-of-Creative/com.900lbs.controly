@@ -30,14 +30,29 @@ namespace NineHundredLbs.Controly.UI
         public List<IToggleController> Tabs { get; } = new List<IToggleController>();
 
         /// <summary>
+        /// Container where tabs are populated.
+        /// </summary>
+        public RectTransform TabContainer => tabContainer;
+
+        /// <summary>
         /// List of controlled tab pages.
         /// </summary>
         public List<IViewController> TabPages { get; } = new List<IViewController>();
+
+        /// <summary>
+        /// Container where tab pages are populated.
+        /// </summary>
+        public RectTransform TabPageContainer => tabPageContainer;
         #endregion
 
         #region Serialized Private Variables
+        [Tooltip("Container where tabs are populated.")]
         [SerializeField] private RectTransform tabContainer = default;
+
+        [Tooltip("Controlled ToggleGroup component.")]
         [SerializeField] private ToggleGroup tabToggleGroup = default;
+
+        [Tooltip("Container where tab pages are populated.")]
         [SerializeField] private RectTransform tabPageContainer = default;
         #endregion
 
@@ -46,7 +61,7 @@ namespace NineHundredLbs.Controly.UI
         /// Toggles the interactability of controlled <see cref="Tabs"/> and <see cref="TabPages"/> to the given <paramref name="value"/>.
         /// </summary>
         /// <param name="value">Whether to toggle to interactable (true) or uninteractable (false).</param>
-        public void ToggleInteractability(bool value)
+        public virtual void ToggleInteractability(bool value)
         {
             foreach (var tab in Tabs)
                 tab.ToggleInteractability(value);

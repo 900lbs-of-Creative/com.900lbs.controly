@@ -76,6 +76,11 @@ namespace NineHundredLbs.Controly.UI
         /// Invoked when <see cref="UIView"/> component's <see cref="UIView.HideBehavior"/> finishes.
         /// </summary>
         public Action<IViewController> HideFinished { get; set; }
+
+        /// <summary>
+        /// Current interactable state.
+        /// </summary>
+        public bool IsInteractable { get; private set; } = true;
         #endregion
 
         #region Serialized Private Variables
@@ -96,7 +101,10 @@ namespace NineHundredLbs.Controly.UI
         #endregion
 
         #region Public Methods
-        public virtual void ToggleInteractability(bool value) { }
+        public virtual void ToggleInteractability(bool value) 
+        {
+            IsInteractable = value;
+        }
         #endregion
 
         #region Protected Methods
@@ -188,6 +196,11 @@ namespace NineHundredLbs.Controly.UI
         /// Invoked when <see cref="UIView"/> component's <see cref="UIView.HideBehavior"/> finishes.
         /// </summary>
         public Action<IViewController> HideFinished { get; set; }
+
+        /// <summary>
+        /// Current interactable state.
+        /// </summary>
+        public bool IsInteractable { get; private set; } = true;
         #endregion
 
         #region Serialized Private Variables
@@ -196,7 +209,10 @@ namespace NineHundredLbs.Controly.UI
         #endregion
 
         #region Public Methods
-        public virtual void ToggleInteractability(bool value) { }
+        public virtual void ToggleInteractability(bool value) 
+        {
+            IsInteractable = value;
+        }
         #endregion
 
         #region Protected Methods

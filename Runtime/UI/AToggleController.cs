@@ -132,7 +132,7 @@ namespace NineHundredLbs.Controly.UI
         /// Toggles the interactability of <see cref="UIToggle"/> to the given <paramref name="value"/>.
         /// </summary>
         /// <param name="value">Whether to toggle to interactable (true) or uninteractable (false).</param>
-        public void ToggleInteractability(bool value)
+        public virtual void ToggleInteractability(bool value)
         {
             UIToggle.Interactable = value;
         }
@@ -298,7 +298,7 @@ namespace NineHundredLbs.Controly.UI
         /// Toggles the interactability of <see cref="UIToggle"/> to the given <paramref name="value"/>.
         /// </summary>
         /// <param name="value">Whether to toggle to interactable (true) or uninteractable (false).</param>
-        public void ToggleInteractability(bool value)
+        public virtual void ToggleInteractability(bool value)
         {
             UIToggle.Interactable = value;
         }

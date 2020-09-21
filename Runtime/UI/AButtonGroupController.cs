@@ -36,9 +36,19 @@ namespace NineHundredLbs.Controly.UI
         public Action<TButtonController> ButtonClicked { get; set; }
 
         /// <summary>
+        /// Container where buttons are populated.
+        /// </summary>
+        public RectTransform ButtonContainer => buttonContainer;
+
+        /// <summary>
         /// Controlled button components.
         /// </summary>
         public List<TButtonController> Buttons => buttons;
+
+        /// <summary>
+        /// Current interactable state.
+        /// </summary>
+        public bool IsInteractable { get; private set; } = true;
         #endregion
 
         #region Serialized Private Variables
@@ -65,10 +75,11 @@ namespace NineHundredLbs.Controly.UI
         /// Toggles the interactability of controlled <see cref="Buttons"/> to the given <paramref name="value"/>.
         /// </summary>
         /// <param name="value">Whether to toggle to interactable (true) or uninteractable (false).</param>
-        public void ToggleInteractability(bool value)
+        public virtual void ToggleInteractability(bool value)
         {
+            IsInteractable = value;
             foreach (var button in Buttons)
-                button.ToggleInteractability(value);
+                button.ToggleInteractability(IsInteractable);
         }
         #endregion
 
@@ -86,6 +97,7 @@ namespace NineHundredLbs.Controly.UI
                 button.UIButton.transform.SetParent(buttonContainer, false);
                 button.Clicked += (x) => Button_Clicked(button);
                 button.SetProperties(buttonProperties);
+                button.ToggleInteractability(IsInteractable);
                 InitializeButton(button);
                 Buttons.Add(button); 
             }

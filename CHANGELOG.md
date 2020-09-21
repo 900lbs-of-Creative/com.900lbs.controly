@@ -7,9 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [3.0.4] - 2020-9-21
+
+### Changed
+
+- Changed all toggle interactability functions to be `virtual` so that subclasses can change default implementation.
+- Added the ability to check current interactable state on view, buttong group, and toggle group controllers.
+- Exposed all RectTransform objects on toggle group, button group, and tab menu objects so that child implementations can access them.
+
 ## [3.0.3] - 2020-8-11
 
-# Added
+### Added
 
 - Interactability toggling functionality for toggle groups, button groups, views, and tab menus.
 

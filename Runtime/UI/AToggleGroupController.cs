@@ -37,6 +37,11 @@ namespace NineHundredLbs.Controly.UI
         public Action<TToggleController, bool> ValueChanged { get; set; }
 
         /// <summary>
+        /// Container where toggles are populated.
+        /// </summary>
+        public RectTransform ToggleContainer => toggleContainer;
+
+        /// <summary>
         /// Controlled <see cref="UnityEngine.UI.ToggleGroup"/> component.
         /// </summary>
         public ToggleGroup ToggleGroup => toggleGroup;
@@ -45,6 +50,11 @@ namespace NineHundredLbs.Controly.UI
         /// Controlled toggle components.
         /// </summary>
         public List<TToggleController> Toggles => toggles;
+
+        /// <summary>
+        /// Current interactable state.
+        /// </summary>
+        public bool IsInteractable { get; private set; } = true;
         #endregion
 
         #region Serialized Private Variables
@@ -74,10 +84,11 @@ namespace NineHundredLbs.Controly.UI
         /// Toggles the interactability of controlled <see cref="Toggles"/> to the given <paramref name="value"/>.
         /// </summary>
         /// <param name="value">Whether to toggle to interactable (true) or uninteractable (false).</param>
-        public void ToggleInteractability(bool value)
+        public virtual void ToggleInteractability(bool value)
         {
+            IsInteractable = value;
             foreach (var toggle in Toggles)
-                toggle.ToggleInteractability(value);
+                toggle.ToggleInteractability(IsInteractable);
         }
         #endregion
 
@@ -96,6 +107,7 @@ namespace NineHundredLbs.Controly.UI
                 toggle.UIToggle.Toggle.group = toggleGroup;
                 toggle.ValueChanged += (x, value) => Toggle_ValueChanged(toggle, value);
                 toggle.SetProperties(toggleProperties);
+                toggle.ToggleInteractability(IsInteractable);
                 InitializeToggle(toggle);
                 Toggles.Add(toggle);
             }

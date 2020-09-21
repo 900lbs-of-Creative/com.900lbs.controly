@@ -62,6 +62,15 @@ namespace NineHundredLbs.Controly
             this.properties = properties;
             OnPropertiesSet();
         }
+
+        /// <summary>
+        /// Gets and and returns properties of this entity.
+        /// </summary>
+        /// <returns>Properties of type <see cref="TEntityProperties>"/></returns>
+        public TEntityProperties GetProperties()
+        {
+            return properties;
+        }
         #endregion
 
         #region Protected Methods
